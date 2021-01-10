@@ -1,6 +1,6 @@
 package triangle_tetris.geometry
 
-case class Point(x: Double, y: Double) extends Primitive {
+case class Point(x: Double, y: Double) {
   def ==(p: Point): Boolean =
     p.x == x && p.y == y
 
@@ -12,4 +12,7 @@ case class Point(x: Double, y: Double) extends Primitive {
 
   def points: List[Point] =
     List(this)
+
+  override def toString: String =
+    s"Point($x, $y)"
 }
