@@ -2,10 +2,12 @@ package triangle_tetris
 
 import scalafx.application.JFXApp
 import scalafx.application.JFXApp.PrimaryStage
-import triangle_tetris.game.Piece
+import triangle_tetris.game.pieces.PieceType
 import triangle_tetris.geometry.{Line, Point, Triangle}
 import triangle_tetris.graphics.Screen
 import triangle_tetris.scene.{Node, Scene}
+
+import scala.math._
 
 /*
 
@@ -29,12 +31,22 @@ object TriangleTetris extends JFXApp {
     val _height = 600
 
     val location = Point(100, 100)
-    val magnitude = 100
+    val magnitude = 25
 
     val xAxis: Node = Node(Some(Line(Point(-300, 0), Point(300, 0))), List())
     val yAxis: Node = Node(Some(Line(Point(0, 300), Point(0, -300))), List())
-    val piece = Piece(location, magnitude)
-    val root: Node = Node(None, List(xAxis, yAxis, piece.node))
+    val pieces = List(
+      PieceType.Line()
+        .rotate(toRadians(120))
+        .transpose(Point(100, -120)),
+      PieceType.Hexagon()
+        .transpose(Point(-100, 100)),
+      PieceType.HourGlass()
+        .rotate(toRadians(60))
+        .transpose(Point(100, 50))
+    )
+
+    val root: Node = Node(None, List(xAxis, yAxis) ++ pieces.map(_.node))
     val _scene: Scene = Scene(root)
     val screen: Screen = Screen(_width, _height)
 
