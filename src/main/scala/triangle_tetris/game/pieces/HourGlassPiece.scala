@@ -7,11 +7,14 @@ case class HourGlassPiece(location: Point = Piece.defaultLocation,
                           magnitude: Double = Piece.defaultMagnitude)
   extends Piece(PieceType.HourGlass, location, triangles) {
 
-  def rotate(angle: Double): Piece =
+  def rotate(angle: Double): HourGlassPiece =
     HourGlassPiece(location, triangles.map(_.rotate(angle)))
 
-  def transpose(delta: Point): Piece =
+  def transpose(delta: Point): HourGlassPiece =
     HourGlassPiece(location.transpose(delta), triangles.map(_.transpose(delta)))
+
+  def resize(size: Double): HourGlassPiece =
+    this
 }
 
 object HourGlassPiece {

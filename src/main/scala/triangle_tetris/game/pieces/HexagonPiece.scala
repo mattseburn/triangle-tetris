@@ -7,11 +7,14 @@ case class HexagonPiece(location: Point = Piece.defaultLocation,
                         magnitude: Double = Piece.defaultMagnitude)
   extends Piece(PieceType.Hexagon, location, triangles) {
 
-  def rotate(angle: Double): Piece =
+  def rotate(angle: Double): HexagonPiece =
     HexagonPiece(location, triangles.map(_.rotate(angle)))
 
-  def transpose(delta: Point): Piece =
+  def transpose(delta: Point): HexagonPiece =
     HexagonPiece(location.transpose(delta), triangles.map(_.transpose(delta)))
+
+  def resize(size: Double): HexagonPiece =
+    this
 }
 
 object HexagonPiece {

@@ -26,6 +26,9 @@ case class Point(x: Double, y: Double) extends Transformations[Point] {
       x * cos(angle) - y * sin(angle),
       x * sin(angle) + y * cos(angle))
 
+  def resize(size: Double): Point =
+    this
+
   def points: List[Point] =
     List(this)
 
