@@ -1,10 +1,11 @@
 package triangle_tetris.game.pieces
 
+import triangle_tetris.game.GameElement
 import triangle_tetris.geometry.{Point, Triangle}
 
-case class LinePiece(location: Point = Piece.defaultLocation,
+case class LinePiece(location: Point = GameElement.defaultLocation,
                      triangles: List[Triangle] = List(),
-                     magnitude: Double = Piece.defaultMagnitude)
+                     magnitude: Double = GameElement.defaultMagnitude)
   extends Piece(PieceType.Line, location, triangles, magnitude) {
 
   def rotate(angle: Double): LinePiece =
@@ -18,16 +19,18 @@ case class LinePiece(location: Point = Piece.defaultLocation,
 }
 
 object LinePiece {
+  import GameElement._
+
   def apply(): LinePiece =
-    LinePiece(Piece.defaultLocation, List(
-      Piece.equilateralTriangle,
-      Piece.equilateralTriangle.transpose(Point(0, Piece.defaultMagnitude)),
-      Piece.equilateralTriangle.transpose(Point(0, -Piece.defaultMagnitude)),
-      Piece.equilateralTriangle
-        .rotate(Piece.defaultLocation, -Piece.angle)
-        .transpose(Point(0, Piece.defaultMagnitude)),
-      Piece.equilateralTriangle.rotate(Piece.defaultLocation, -Piece.angle),
-      Piece.equilateralTriangle
-        .rotate(Piece.defaultLocation, -Piece.angle)
-        .transpose(Point(0, -Piece.defaultMagnitude))))
+    LinePiece(defaultLocation, List(
+      equilateralTriangle,
+      equilateralTriangle.transpose(Point(0, defaultMagnitude)),
+      equilateralTriangle.transpose(Point(0, -defaultMagnitude)),
+      equilateralTriangle
+        .rotate(defaultLocation, -angle)
+        .transpose(Point(0, defaultMagnitude)),
+      equilateralTriangle.rotate(defaultLocation, -angle),
+      equilateralTriangle
+        .rotate(defaultLocation, -angle)
+        .transpose(Point(0, -defaultMagnitude))))
 }

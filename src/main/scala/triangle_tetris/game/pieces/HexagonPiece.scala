@@ -1,10 +1,11 @@
 package triangle_tetris.game.pieces
 
+import triangle_tetris.game.GameElement
 import triangle_tetris.geometry.{Point, Triangle}
 
-case class HexagonPiece(location: Point = Piece.defaultLocation,
+case class HexagonPiece(location: Point = GameElement.defaultLocation,
                         triangles: List[Triangle] = List(),
-                        magnitude: Double = Piece.defaultMagnitude)
+                        magnitude: Double = GameElement.defaultMagnitude)
   extends Piece(PieceType.Hexagon, location, triangles) {
 
   def rotate(angle: Double): HexagonPiece =
@@ -18,12 +19,14 @@ case class HexagonPiece(location: Point = Piece.defaultLocation,
 }
 
 object HexagonPiece {
+  import GameElement._
+
   def apply(): HexagonPiece =
-    HexagonPiece(Piece.defaultLocation, List(
-      Piece.equilateralTriangle,
-      Piece.equilateralTriangle.rotate(Piece.defaultLocation, Piece.angle),
-      Piece.equilateralTriangle.rotate(Piece.defaultLocation, 2*Piece.angle),
-      Piece.equilateralTriangle.rotate(Piece.defaultLocation, 3*Piece.angle),
-      Piece.equilateralTriangle.rotate(Piece.defaultLocation, 4*Piece.angle),
-      Piece.equilateralTriangle.rotate(Piece.defaultLocation, 5*Piece.angle)))
+    HexagonPiece(defaultLocation, List(
+      equilateralTriangle,
+      equilateralTriangle.rotate(defaultLocation, angle),
+      equilateralTriangle.rotate(defaultLocation, 2*angle),
+      equilateralTriangle.rotate(defaultLocation, 3*angle),
+      equilateralTriangle.rotate(defaultLocation, 4*angle),
+      equilateralTriangle.rotate(defaultLocation, 5*angle)))
 }

@@ -1,10 +1,11 @@
 package triangle_tetris.game.pieces
 
+import triangle_tetris.game.GameElement
 import triangle_tetris.geometry.{Point, Triangle}
 
-case class HourGlassPiece(location: Point = Piece.defaultLocation,
+case class HourGlassPiece(location: Point = GameElement.defaultLocation,
                           triangles: List[Triangle] = List(),
-                          magnitude: Double = Piece.defaultMagnitude)
+                          magnitude: Double = GameElement.defaultMagnitude)
   extends Piece(PieceType.HourGlass, location, triangles) {
 
   def rotate(angle: Double): HourGlassPiece =
@@ -18,17 +19,19 @@ case class HourGlassPiece(location: Point = Piece.defaultLocation,
 }
 
 object HourGlassPiece {
+  import GameElement._
+
   def apply(): HourGlassPiece =
-    HourGlassPiece(Piece.defaultLocation, List(
-      Piece.equilateralTriangle,
-      Piece.equilateralTriangle.rotate(Piece.defaultLocation, Piece.angle),
-      Piece.equilateralTriangle.rotate(Piece.defaultLocation, 2*Piece.angle),
-      Piece.equilateralTriangle.rotate(Piece.defaultLocation, 3*Piece.angle),
-      Piece.equilateralTriangle
-        .rotate(Piece.defaultLocation, 2*Piece.angle)
-        .transpose(Point(0, -Piece.defaultMagnitude)),
-      Piece.equilateralTriangle
-        .rotate(Piece.defaultLocation, Piece.angle)
-        .transpose(Point(Piece.triangleHeight(), Piece.defaultMagnitude/2))
+    HourGlassPiece(defaultLocation, List(
+      equilateralTriangle,
+      equilateralTriangle.rotate(defaultLocation, angle),
+      equilateralTriangle.rotate(defaultLocation, 2*angle),
+      equilateralTriangle.rotate(defaultLocation, 3*angle),
+      equilateralTriangle
+        .rotate(defaultLocation, 2*angle)
+        .transpose(Point(0, -defaultMagnitude)),
+      equilateralTriangle
+        .rotate(defaultLocation, angle)
+        .transpose(Point(triangleHeight(), defaultMagnitude/2))
     ))
 }
