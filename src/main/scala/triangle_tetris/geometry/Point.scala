@@ -13,7 +13,7 @@ case class Point(x: Double, y: Double) extends Transformations[Point] {
     Point(p.x + x, p.y + y)
 
   def -(p: Point): Point =
-    Point(p.x - x, p.y - y)
+    Point(x - p.x, y - p.y)
 
   def *(s: Double): Point =
     Point(x * s, y * s)

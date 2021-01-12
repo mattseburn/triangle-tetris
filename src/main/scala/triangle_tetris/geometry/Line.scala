@@ -3,10 +3,10 @@ package triangle_tetris.geometry
 import scala.math._
 
 case class Line(p1: Point, p2: Point) extends Primitive(location = p1) with Transformations[Line] {
-  def length =
+  def length: Double =
     rint(sqrt(pow(p2.x - p1.x, 2) + pow(p2.y - p2.y, 2)))
 
-  def ==(l: Line) =
+  def ==(l: Line): Boolean =
     Set(p1, p2) == Set(l.p1, l.p2)
 
   def transpose(delta: Point): Line =

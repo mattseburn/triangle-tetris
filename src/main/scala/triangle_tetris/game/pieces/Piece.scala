@@ -1,7 +1,7 @@
 package triangle_tetris.game.pieces
 
+import triangle_tetris.game.GameElement
 import triangle_tetris.geometry.{Point, Transformations, Triangle}
-import triangle_tetris.scene.Node
 
 import scala.math._
 
@@ -9,10 +9,11 @@ abstract class Piece(pieceType: PieceType,
                      location: Point = Piece.defaultLocation,
                      triangles: List[Triangle] = List(),
                      magnitude: Double = Piece.defaultMagnitude
-                ) extends Transformations[Piece] {
+                ) extends GameElement[Triangle]
+                  with Transformations[Piece] {
 
-  val node: Node =
-    Node(None, triangles.map(t => Node(Some(t), List())))
+  def children: List[Triangle] =
+    triangles
 }
 
 object Piece {

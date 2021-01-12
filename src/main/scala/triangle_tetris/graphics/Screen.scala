@@ -7,8 +7,6 @@ import scalafx.scene.canvas.Canvas
 import scalafx.scene.layout.Pane
 import scalafx.scene.paint.Color._
 
-import scala.math._
-
 case class Screen(width: Double, height: Double) {
   def render(scene: Scene): FxScene = {
     println(s"Rendering scene: $scene")
@@ -21,10 +19,10 @@ case class Screen(width: Double, height: Double) {
       graphicsContext2D.fill = Red
 
       coordinates.foreach {
-        case points@(p1 :: p2 :: p3 :: List()) =>
+        case points@(p1 :: p2 :: p3 :: Nil) =>
           graphicsContext2D.strokePolygon(points.map(p => (p.x, p.y)))
 
-        case points@(p1 :: p2 :: List()) =>
+        case points@(p1 :: p2 :: Nil) =>
           graphicsContext2D.strokeLine(p1.x, p1.y, p2.x, p2.y)
 
         case _ => ???
@@ -38,5 +36,5 @@ case class Screen(width: Double, height: Double) {
   }
 
   private def toScreenCoordinates(coordinates: List[List[Point]]): List[List[Point]] =
-    coordinates.map(_.map(p => Point(p.x + rint(width/2), -(p.y - rint(height/2)))))
+    coordinates.map(_.map(p => Point(p.x + width/2, -(p.y - height/2))))
 }
