@@ -4,6 +4,16 @@ import org.scalatest.matchers.should.Matchers._
 import org.scalatest.wordspec.AnyWordSpec
 
 class LineSpec extends AnyWordSpec {
+  "creation" when {
+    "endpoints are the same" should {
+      "throw an IllegalArgumentException" in {
+        val p1 = Point(1, 2)
+
+        assertThrows[IllegalArgumentException] { Line(p1, p1) }
+      }
+    }
+  }
+
   "equality" when {
     "endpoints are the same" should {
       "return true, regardless of their order" in {
@@ -44,7 +54,36 @@ class LineSpec extends AnyWordSpec {
       val delta = Point(5, 6)
       val l = Line(p1, p2)
 
-      l.transpose(delta) shouldBe(Line(p1 + delta, p2 + delta))
+      l.transpose(delta) shouldBe Line(p1 + delta, p2 + delta)
+    }
+  }
+
+  "intersection" when {
+    "lines are parallel" should {
+      "return None" in {
+        val l1 = Line(Point(-1, -1), Point(1, 1))
+        val l2 = Line(Point(-1, 0), Point(1, 2))
+
+        l1 ^ l2 shouldBe None
+      }
+    }
+
+    "lines intersect, but outside these segments" should {
+      "return None" in {
+        val l1 = Line(Point(1, 1), Point(3, 3))
+        val l2 = Line(Point(-1, 1), Point(1, -1))
+
+        l1 ^ l2 shouldBe None
+      }
+    }
+
+    "lines intersect within these segments" should {
+      "return intersection point" in {
+        val l1 = Line(Point(-1, -1), Point(1, 1))
+        val l2 = Line(Point(-1, 1), Point(1, -1))
+
+        l1 ^ l2 shouldEqual Some(Point(0, 0))
+      }
     }
   }
 }
