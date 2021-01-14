@@ -7,13 +7,13 @@ import scalafx.scene.canvas.Canvas
 import scalafx.scene.layout.Pane
 import scalafx.scene.paint.Color._
 
-case class Screen(width: Double, height: Double) {
+case class Screen(width: Double, height: Double, padding: Double) {
   def render(scene: Scene): FxScene = {
-    println(s"Rendering scene: $scene")
+    //println(s"Rendering scene: $scene")
     val coordinates = toScreenCoordinates(scene.coordinates)
-    println(s"coordinates: ${coordinates.mkString("\n")}")
+    //println(s"coordinates: ${coordinates.mkString("\n")}")
 
-    val canvas = new Canvas(width, height) {
+    val canvas = new Canvas(width + padding, height + padding) {
       graphicsContext2D.lineWidth = 1
       graphicsContext2D.stroke = White
       graphicsContext2D.fill = Red
@@ -27,6 +27,9 @@ case class Screen(width: Double, height: Double) {
 
         case _ => ???
       }
+
+      translateX = padding
+      translateY = padding
     }
 
     new FxScene {
@@ -35,6 +38,9 @@ case class Screen(width: Double, height: Double) {
     }
   }
 
+  private def pointToScreenCoordinates(p: Point): Point =
+    Point(p.x + width/2, -(p.y - height/2))
+
   private def toScreenCoordinates(coordinates: List[List[Point]]): List[List[Point]] =
-    coordinates.map(_.map(p => Point(p.x + width/2, -(p.y - height/2))))
+    coordinates.map(_.map(pointToScreenCoordinates))
 }

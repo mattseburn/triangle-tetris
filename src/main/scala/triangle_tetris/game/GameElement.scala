@@ -13,7 +13,7 @@ trait GameElement[P <: Primitive] {
 
 object GameElement {
   val defaultLocation: Point = Point(0, 0)
-  val defaultMagnitude: Double = 10
+  val defaultMagnitude: Double = 50
   val angle: Double = toRadians(60)
 
   def triangleHeight(magnitude: Double = defaultMagnitude): Double =

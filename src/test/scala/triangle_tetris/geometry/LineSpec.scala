@@ -68,21 +68,50 @@ class LineSpec extends AnyWordSpec {
       }
     }
 
-    "lines intersect, but outside these segments" should {
-      "return None" in {
-        val l1 = Line(Point(1, 1), Point(3, 3))
-        val l2 = Line(Point(-1, 1), Point(1, -1))
-
-        l1 ^ l2 shouldBe None
-      }
-    }
-
-    "lines intersect within these segments" should {
+    "lines intersect" should {
       "return intersection point" in {
         val l1 = Line(Point(-1, -1), Point(1, 1))
         val l2 = Line(Point(-1, 1), Point(1, -1))
 
         l1 ^ l2 shouldEqual Some(Point(0, 0))
+      }
+    }
+
+    "one of the lines is horizontal" should {
+      "return intersection point" in {
+        val l1 = Line(Point(-2, 1), Point(2, 1))
+        val l2 = Line(Point(-2, -2), Point(2, -2))
+
+        l1 ^ l2 shouldEqual Some(Point(1, 1))
+      }
+    }
+
+    "one of the lines is vertical" should {
+      "return intersection point" in {
+        val l1 = Line(Point(1, -2), Point(1, 2))
+        val l2 = Line(Point(-2, -2), Point(2, -2))
+
+        l1 ^ l2 shouldEqual Some(Point(1, 1))
+      }
+    }
+  }
+
+  "contains" when {
+    "the point is on the line segment" should {
+      "return true" in {
+        val l = Line(Point(-1, -1), Point(1, 1))
+        val p = Point(0, 0)
+
+        l.contains(p) shouldBe true
+      }
+    }
+
+    "the point is not on the line segment" should {
+      "return false" in {
+        val l = Line(Point(-1, -1), Point(1, 1))
+        val p = Point(2, 2)
+
+        l.contains(p) shouldBe false
       }
     }
   }
