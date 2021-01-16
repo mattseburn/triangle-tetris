@@ -1,7 +1,7 @@
 package triangle_tetris.game
 
 import scala.math._
-import triangle_tetris.geometry.{Line, Point, Triangle}
+import triangle_tetris.geometry.{Line, Point}
 
 case class Grid(gridWidth: Double, gridHeight: Double, cellMagnitude: Double)
   extends GameElement[Line] {
@@ -12,7 +12,7 @@ case class Grid(gridWidth: Double, gridHeight: Double, cellMagnitude: Double)
   def width: Double = cellHeight * gridWidth
   def height: Double = cellMagnitude * gridHeight
 
-  def children: List[Line] = lines
+  override val primitives: List[Line] = lines
   def lines: List[Line] = verticalLines ++ diagonalLines ++ borders
 
   case class Range(min: Double, max: Double)

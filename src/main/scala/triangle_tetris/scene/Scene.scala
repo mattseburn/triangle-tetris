@@ -1,13 +1,11 @@
 package triangle_tetris.scene
 
-import triangle_tetris.geometry.{Point, Primitive}
-
 case class Scene(root: Node) {
-  def coordinates: List[List[Point]] =
-    _coordinates(root)
+  def elements: List[SceneElement] =
+    _elements(root)
 
-  private def _coordinates(node: Node): List[List[Point]] =
-    node.primitive.map(p => p.points).toList ++ node.children.flatMap(_coordinates)
+  private def _elements(node: Node): List[SceneElement] =
+    node.sceneElement.toList ++ node.children.flatMap(_elements)
 
   override def toString: String =
     s"Scene[$root]"

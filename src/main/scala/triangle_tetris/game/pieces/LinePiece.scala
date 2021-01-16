@@ -6,7 +6,7 @@ import triangle_tetris.geometry.{Point, Triangle}
 case class LinePiece(location: Point = GameElement.defaultLocation,
                      triangles: List[Triangle] = List(),
                      magnitude: Double = GameElement.defaultMagnitude)
-  extends Piece(PieceType.Line, location, triangles, magnitude) {
+  extends Piece(PieceType.Line, Color.Green, location, triangles, magnitude) {
 
   def rotate(angle: Double): LinePiece =
     LinePiece(location, triangles.map(_.rotate(angle)))

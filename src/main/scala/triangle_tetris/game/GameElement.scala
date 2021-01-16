@@ -1,15 +1,11 @@
 package triangle_tetris.game
 
+import triangle_tetris.game.pieces.Color
 import triangle_tetris.geometry.{Point, Primitive, Triangle}
-import triangle_tetris.scene.Node
 
 import scala.math.{pow, rint, sqrt, toRadians}
 
-trait GameElement[P <: Primitive] {
-  def children: List[P]
-  val node: Node =
-    Node(None, children.map(c => Node(Some(c), List())))
-}
+abstract class GameElement[P <: Primitive](val primitives: List[P] = List(), val color: Option[Color] = None)
 
 object GameElement {
   val defaultLocation: Point = Point(0, 0)

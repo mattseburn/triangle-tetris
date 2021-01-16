@@ -6,7 +6,7 @@ import triangle_tetris.geometry.{Point, Triangle}
 case class HourGlassPiece(location: Point = GameElement.defaultLocation,
                           triangles: List[Triangle] = List(),
                           magnitude: Double = GameElement.defaultMagnitude)
-  extends Piece(PieceType.HourGlass, location, triangles) {
+  extends Piece(PieceType.HourGlass, Color.Blue, location, triangles) {
 
   def rotate(angle: Double): HourGlassPiece =
     HourGlassPiece(location, triangles.map(_.rotate(angle)))

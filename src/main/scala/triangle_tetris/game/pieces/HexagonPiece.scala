@@ -6,7 +6,7 @@ import triangle_tetris.geometry.{Point, Triangle}
 case class HexagonPiece(location: Point = GameElement.defaultLocation,
                         triangles: List[Triangle] = List(),
                         magnitude: Double = GameElement.defaultMagnitude)
-  extends Piece(PieceType.Hexagon, location, triangles) {
+  extends Piece(PieceType.Hexagon, Color.Red, location, triangles) {
 
   def rotate(angle: Double): HexagonPiece =
     HexagonPiece(location, triangles.map(_.rotate(angle)))

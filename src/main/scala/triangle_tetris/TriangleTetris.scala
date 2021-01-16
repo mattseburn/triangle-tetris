@@ -29,7 +29,7 @@ object TriangleTetris extends JFXApp {
     //scene = HexagonalGrid(12, 12, 50).render
 
     val gridWidth = 12
-    val gridHeight = 20
+    val gridHeight = 19
     val magnitude = 50
     val padding = 10
 
@@ -38,21 +38,19 @@ object TriangleTetris extends JFXApp {
     val pieces = List(
 //      PieceType.Line()
 //        .rotate(toRadians(120))
-//        .transpose(Point(100, -120)),
+//        .transpose(Point(0, -125)),
       PieceType.Hexagon()
-        .transpose(Point(0, -25)),
+//        .transpose(Point(0, -25)),
 //      PieceType.HourGlass()
 //        .rotate(toRadians(60))
-//        .transpose(Point(100, 50))
+//        .transpose(Point(0, 125))
     )
 
     val grid = Grid(gridWidth, gridHeight, magnitude)
 
-    val root: Node = Node(None, List(grid.node) ++ pieces.map(_.node))
+    val root: Node = Node(None, List(Node(grid)) ++ pieces.map(Node(_)))
     val _scene: Scene = Scene(root)
     val screen: Screen = Screen(grid.width, grid.height, padding)
-
-    //println(_scene)
 
     scene = screen.render(_scene)
   }
