@@ -19,19 +19,12 @@ case class Screen(width: Double, height: Double, padding: Double) {
       graphicsContext2D.lineWidth = 1
 
       elements.foreach(e => {
-        e.fillColor.map {
-          case GameColor.Red => Red
-          case GameColor.Blue => Blue
-          case GameColor.Green => Green
-          case GameColor.White => White
-        }.foreach(color => graphicsContext2D.fill = color)
-
-        e.strokeColor.map {
-          case GameColor.Red => Red
-          case GameColor.Blue => Blue
-          case GameColor.Green => Green
-          case GameColor.White => White
-        }.foreach(color => graphicsContext2D.stroke = color)
+        e.fillColor
+          .map(ScreenColor(_))
+          .foreach(graphicsContext2D.fill = _)
+        e.strokeColor
+          .map(ScreenColor(_))
+          .foreach(graphicsContext2D.stroke = _)
 
         e.primitive match {
           case triangle: Triangle =>
