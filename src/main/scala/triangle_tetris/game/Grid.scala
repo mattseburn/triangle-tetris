@@ -1,10 +1,12 @@
 package triangle_tetris.game
 
+import triangle_tetris.game.pieces.Color
+
 import scala.math._
 import triangle_tetris.geometry.{Line, Point}
 
 case class Grid(gridWidth: Double, gridHeight: Double, cellMagnitude: Double)
-  extends GameElement[Line] {
+  extends GameElement[Line](fillColor = None, strokeColor = Some(Color.White)) {
 
   import GameElement._
 

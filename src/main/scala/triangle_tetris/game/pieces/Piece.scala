@@ -8,7 +8,7 @@ abstract class Piece(pieceType: PieceType,
                      location: Point = GameElement.defaultLocation,
                      triangles: List[Triangle] = List(),
                      magnitude: Double = GameElement.defaultMagnitude,
-                ) extends GameElement[Triangle](triangles, Some(color))
+                ) extends GameElement[Triangle](triangles, Some(color), Some(Color.White))
                   with Transformations[Piece]
 
 /*

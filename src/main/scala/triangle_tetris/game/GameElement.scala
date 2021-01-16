@@ -5,7 +5,9 @@ import triangle_tetris.geometry.{Point, Primitive, Triangle}
 
 import scala.math.{pow, rint, sqrt, toRadians}
 
-abstract class GameElement[P <: Primitive](val primitives: List[P] = List(), val color: Option[Color] = None)
+abstract class GameElement[P <: Primitive](val primitives: List[P] = List(),
+                                           val fillColor: Option[Color] = None,
+                                           val strokeColor: Option[Color] = None)
 
 object GameElement {
   val defaultLocation: Point = Point(0, 0)

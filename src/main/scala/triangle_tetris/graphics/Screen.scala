@@ -9,37 +9,47 @@ import scalafx.scene.layout.Pane
 import scalafx.scene.paint.Color._
 
 case class Screen(width: Double, height: Double, padding: Double) {
+  private def noop = () => ()
+
   def render(scene: Scene): FxScene = {
     val elements = scene.elements
       .flatMap(ScreenElement(_))
 
     val canvas = new Canvas(width + padding, height + padding) {
       graphicsContext2D.lineWidth = 1
-      graphicsContext2D.stroke = White
 
-      elements.foreach(e => e.primitive match {
-        case triangle: Triangle =>
-          e.color.map {
-            case GameColor.Red => Red
-            case GameColor.Blue => Blue
-            case GameColor.Green => Green
-            case _ => ???
-          }.foreach(color => graphicsContext2D.fill = color)
+      elements.foreach(e => {
+        e.fillColor.map {
+          case GameColor.Red => Red
+          case GameColor.Blue => Blue
+          case GameColor.Green => Green
+          case GameColor.White => White
+        }.foreach(color => graphicsContext2D.fill = color)
 
-          graphicsContext2D.fillPolygon(triangle.points
-            .map(pointToScreenCoordinates)
-            .map(p => (p.x, p.y)))
+        e.strokeColor.map {
+          case GameColor.Red => Red
+          case GameColor.Blue => Blue
+          case GameColor.Green => Green
+          case GameColor.White => White
+        }.foreach(color => graphicsContext2D.stroke = color)
 
-          graphicsContext2D.strokePolygon(triangle.points
-            .map(pointToScreenCoordinates)
-            .map(p => (p.x, p.y)))
-        case line: Line =>
-          line.points.map(pointToScreenCoordinates) match {
-            case p1 :: p2 :: Nil =>
-              graphicsContext2D.strokeLine(p1.x, p1.y, p2.x, p2.y)
-            case _ => ???
-          }
-        case _ => ???
+        e.primitive match {
+          case triangle: Triangle =>
+            graphicsContext2D.fillPolygon(triangle.points
+              .map(pointToScreenCoordinates)
+              .map(p => (p.x, p.y)))
+
+            graphicsContext2D.strokePolygon(triangle.points
+              .map(pointToScreenCoordinates)
+              .map(p => (p.x, p.y)))
+          case line: Line =>
+            line.points.map(pointToScreenCoordinates) match {
+              case p1 :: p2 :: Nil =>
+                graphicsContext2D.strokeLine(p1.x, p1.y, p2.x, p2.y)
+              case _ => noop
+            }
+          case _ => noop
+        }
       })
 
       translateX = padding

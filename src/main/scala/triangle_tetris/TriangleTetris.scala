@@ -33,20 +33,18 @@ object TriangleTetris extends JFXApp {
     val magnitude = 50
     val padding = 10
 
-//    val xAxis: Node = Node(Some(Line(Point(-300, 0), Point(300, 0))), List())
-//    val yAxis: Node = Node(Some(Line(Point(0, 300), Point(0, -300))), List())
-    val pieces = List(
-//      PieceType.Line()
-//        .rotate(toRadians(120))
-//        .transpose(Point(0, -125)),
-      PieceType.Hexagon()
-//        .transpose(Point(0, -25)),
-//      PieceType.HourGlass()
-//        .rotate(toRadians(60))
-//        .transpose(Point(0, 125))
-    )
-
     val grid = Grid(gridWidth, gridHeight, magnitude)
+
+    val pieces = List(
+      PieceType.Line()
+        .rotate(toRadians(120))
+        .transpose(Point(-2*grid.cellHeight, -150)),
+      PieceType.Hexagon()
+        .transpose(Point(2*grid.cellHeight, -50)),
+      PieceType.HourGlass()
+        .rotate(toRadians(60))
+        .transpose(Point(4*grid.cellHeight, 100))
+    )
 
     val root: Node = Node(None, List(Node(grid)) ++ pieces.map(Node(_)))
     val _scene: Scene = Scene(root)
