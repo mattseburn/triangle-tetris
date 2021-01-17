@@ -45,11 +45,11 @@ class Game(gridWidth: Double,
 
   private def rotateRight(): Unit =
     setState(state.copy(currentPiece = state.currentPiece
-      .rotate(toRadians(60))))
+      .rotate(toRadians(-60))))
 
   private def rotateLeft(): Unit =
     setState(state.copy(currentPiece = state.currentPiece
-      .rotate(toRadians(-60))))
+      .rotate(toRadians(60))))
 
   private def updateTimestamp(timestamp: Long) =
     setState(state.copy(lastTimestamp = timestamp))

@@ -9,7 +9,7 @@ case class HexagonPiece(location: Point = GameElement.defaultLocation,
   extends Piece(PieceType.Hexagon, Color.Red, location, triangles) {
 
   def rotate(angle: Double): HexagonPiece =
-    HexagonPiece(location, triangles.map(_.rotate(angle)))
+    HexagonPiece(location, triangles.map(_.rotate(location, angle)))
 
   def transpose(delta: Point): HexagonPiece =
     HexagonPiece(location.transpose(delta), triangles.map(_.transpose(delta)))

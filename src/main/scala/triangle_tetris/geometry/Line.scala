@@ -43,9 +43,6 @@ case class Line(p1: Point, p2: Point) extends Primitive(location = p1) with Tran
   def rotate(angle: Double): Line =
     Line(p1.rotate(angle), p2.rotate(angle))
 
-  def resize(size: Double): Line =
-    Line(p1, p2 * (size / length))
-
   def points: List[Point] =
     List(p1, p2)
 

@@ -9,7 +9,7 @@ case class LinePiece(location: Point = GameElement.defaultLocation,
   extends Piece(PieceType.Line, Color.Green, location, triangles, magnitude) {
 
   def rotate(angle: Double): LinePiece =
-    LinePiece(location, triangles.map(_.rotate(angle)))
+    LinePiece(location, triangles.map(_.rotate(location, angle)))
 
   def transpose(delta: Point): LinePiece =
     LinePiece(location.transpose(delta), triangles.map(_.transpose(delta)))

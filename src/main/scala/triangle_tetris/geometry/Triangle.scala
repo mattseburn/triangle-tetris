@@ -10,9 +10,6 @@ case class Triangle(p1: Point, p2: Point, p3: Point)extends Primitive(location =
   def rotate(angle: Double): Triangle =
     Triangle(p1.rotate(angle), p2.rotate(angle), p3.rotate(angle))
 
-  def resize(size: Double): Triangle =
-    Triangle(p1, Line(p1, p2.resize(size)).p2, Line(p1, p3.resize(size)).p2)
-
   def points: List[Point] =
     List(p1, p2, p3)
 
