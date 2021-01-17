@@ -3,6 +3,8 @@ package triangle_tetris.game.pieces
 import triangle_tetris.game.GameElement
 import triangle_tetris.geometry.{Point, Transformations, Triangle}
 
+import scala.util.Random
+
 abstract class Piece(pieceType: PieceType,
                      color: Color,
                      location: Point = GameElement.defaultLocation,
@@ -10,6 +12,14 @@ abstract class Piece(pieceType: PieceType,
                      magnitude: Double = GameElement.defaultMagnitude,
                 ) extends GameElement[Triangle](triangles, Some(color), Some(Color.White))
                   with Transformations[Piece]
+
+object Piece {
+  def apply(): Piece = Random.nextInt(3) match {
+    case 0 => PieceType.Hexagon()
+    case 1 => PieceType.Line()
+    case 2 => PieceType.HourGlass()
+  }
+}
 
 /*
 

@@ -1,9 +1,10 @@
 package triangle_tetris.graphics
 
-import triangle_tetris.geometry.{Line, Point, Triangle}
+import triangle_tetris.geometry.{Line, Triangle}
 import triangle_tetris.scene.Scene
 import scalafx.scene.{Scene => FxScene}
 import scalafx.scene.canvas.Canvas
+import javafx.scene.input.KeyCode
 import scalafx.scene.layout.Pane
 import scalafx.scene.paint.Color._
 
@@ -55,6 +56,18 @@ case class Screen(width: Double, height: Double, padding: Double) {
 
     new FxScene {
       fill = Black
+      onKeyPressed = keyEvent => {
+        keyEvent.getCode match {
+          case KeyCode.LEFT =>
+            println("left pressed")
+          case KeyCode.RIGHT =>
+            println("right pressed")
+          case KeyCode.DOWN =>
+            println("down pressed")
+          case _ =>
+            println(s"key pressed: ${keyEvent.getCode}")
+        }
+      }
       content = new Pane { children = List(canvas) }
     }
   }

@@ -1,55 +1,27 @@
 package triangle_tetris
 
+import scalafx.animation.AnimationTimer
 import scalafx.application.JFXApp
 import scalafx.application.JFXApp.PrimaryStage
-import triangle_tetris.game.Grid
-import triangle_tetris.game.pieces.PieceType
-import triangle_tetris.geometry.{Line, Point, Triangle}
+import triangle_tetris.game.Game
 import triangle_tetris.graphics.Screen
-import triangle_tetris.scene.{Node, Scene}
-
-import scala.math._
-
-/*
-
-  - case object for PieceType (???)
-  - case class for Piece (or abstract class?)
-    - takes starting location
-    - takes triangle magnitude
-    - private method to create equilateral triangle at location with standard orientation
-    - creates six triangles
-    - uses transpose / rotate methods on triangles to arrange piece
-    - has transpose / rotate methods for movement around the board
-
- */
+import triangle_tetris.scene.Scene
 
 object TriangleTetris extends JFXApp {
   stage = new PrimaryStage {
     title = "Triangle Tetris"
-    //scene = HexagonalGrid(12, 12, 50).render
 
     val gridWidth = 12
     val gridHeight = 19
     val magnitude = 50
     val padding = 10
+    val frameRate: Long = 5 * 1000 * 1000 * 1000 // nanoseconds
 
-    val grid = Grid(gridWidth, gridHeight, magnitude)
+    val game: Game = new Game(gridWidth, gridHeight, magnitude, frameRate)
+    val screen: Screen = Screen(game.width, game.height, padding)
 
-    val pieces = List(
-      PieceType.Line()
-        .rotate(toRadians(120))
-        .transpose(Point(-2*grid.cellHeight, -150)),
-      PieceType.Hexagon()
-        .transpose(Point(2*grid.cellHeight, -50)),
-      PieceType.HourGlass()
-        .rotate(toRadians(60))
-        .transpose(Point(4*grid.cellHeight, 100))
-    )
-
-    val root: Node = Node(None, List(Node(grid)) ++ pieces.map(Node(_)))
-    val _scene: Scene = Scene(root)
-    val screen: Screen = Screen(grid.width, grid.height, padding)
-
-    scene = screen.render(_scene)
+    AnimationTimer { timestamp: Long =>
+      scene = screen.render(Scene(game.cycle(timestamp)))
+    }.start()
   }
 }

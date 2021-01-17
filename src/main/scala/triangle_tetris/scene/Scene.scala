@@ -1,5 +1,7 @@
 package triangle_tetris.scene
 
+import triangle_tetris.game.GameState
+
 case class Scene(root: Node) {
   def elements: List[SceneElement] =
     _elements(root)
@@ -9,4 +11,9 @@ case class Scene(root: Node) {
 
   override def toString: String =
     s"Scene[$root]"
+}
+
+object Scene {
+  def apply(gameState: GameState): Scene =
+    Scene(Node(None, List(Node(gameState.grid), Node(gameState.currentPiece))))
 }
