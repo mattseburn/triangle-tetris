@@ -2,6 +2,7 @@ package triangle_tetris.geometry
 
 import org.scalatest.matchers.should.Matchers._
 import org.scalatest.wordspec.AnyWordSpec
+import scala.math._
 
 class PointSpec extends AnyWordSpec {
   "equality" when {
@@ -28,7 +29,7 @@ class PointSpec extends AnyWordSpec {
     "return a new point with the x and y values negated" in {
       val p = Point(1, 2)
 
-      -p shouldEqual(Point(-p.x, -p.y))
+      -p shouldEqual Point(-p.x, -p.y)
     }
   }
 
@@ -55,7 +56,28 @@ class PointSpec extends AnyWordSpec {
       val p1 = Point(1, 2)
       val delta = Point(3, 4)
 
-      p1.transpose(delta) shouldEqual(p1 + delta)
+      p1.transpose(delta) shouldEqual p1 + delta
+    }
+  }
+
+  "rotation" when {
+    "rotating about the origin" should {
+      "rotate by the given angle" in {
+        val p1 = Point(1, 0)
+        val angle = toRadians(90)
+
+        p1.rotate(angle) shouldEqual Point(0, 1)
+      }
+    }
+
+    "rotating about an arbitrary point" should {
+      "transpose to the origin before rotating and then back" in {
+        val p1 = Point(1, 0)
+        val angle = toRadians(90)
+        val pivot = Point(1, 1)
+
+        p1.rotate(pivot, angle) shouldEqual Point(2, 1)
+      }
     }
   }
 }

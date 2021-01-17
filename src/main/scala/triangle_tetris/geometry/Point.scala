@@ -23,8 +23,8 @@ case class Point(x: Double, y: Double) extends Transformations[Point] {
 
   def rotate(angle: Double): Point =
     Point(
-      x * cos(angle) - y * sin(angle),
-      x * sin(angle) + y * cos(angle))
+      x * round(cos(angle) * 1000).toDouble / 1000 - y * round(sin(angle) * 1000).toDouble / 1000,
+      x * round(sin(angle) * 1000).toDouble / 1000 + y * round(cos(angle) * 1000).toDouble / 1000)
 
   def resize(size: Double): Point =
     this
