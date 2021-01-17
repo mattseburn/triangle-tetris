@@ -11,35 +11,48 @@ class Game(gridWidth: Double,
            frameRate: Double) {
 
   private val grid = Grid(gridWidth, gridHeight, magnitude)
+  private val _eventHandler = new EventHandler(
+    moveRight,
+    moveLeft,
+    moveDown,
+    rotateRight,
+    rotateLeft)
   private def newPiece = Piece()
 
   private var state = GameState(grid, newPiece, newPiece)
+  println(state)
+
+  private def setState(newState: GameState) = {
+    println(newState)
+    state = newState
+  }
 
   def width: Double = grid.width
   def height: Double = grid.height
+  def eventHandler: EventHandler = _eventHandler
 
-  def moveRight(): Unit =
-    state = state.copy(currentPiece = state.currentPiece
-      .transpose(Point(grid.cellHeight, 0)))
+  private def moveRight(): Unit =
+    setState(state.copy(currentPiece = state.currentPiece
+      .transpose(Point(grid.cellHeight, 0))))
 
-  def moveLeft(): Unit =
-    state = state.copy(currentPiece = state.currentPiece
-      .transpose(Point(-grid.cellHeight, 0)))
+  private def moveLeft(): Unit =
+    setState(state.copy(currentPiece = state.currentPiece
+      .transpose(Point(-grid.cellHeight, 0))))
 
-  def moveDown(): Unit =
-    state = state.copy(currentPiece = state.currentPiece
-      .transpose(Point(0, -magnitude)))
+  private def moveDown(): Unit =
+    setState(state.copy(currentPiece = state.currentPiece
+      .transpose(Point(0, -magnitude))))
 
-  def rotateRight(): Unit =
-    state = state.copy(currentPiece = state.currentPiece
-      .rotate(toRadians(60)))
+  private def rotateRight(): Unit =
+    setState(state.copy(currentPiece = state.currentPiece
+      .rotate(toRadians(60))))
 
-  def rotateLeft(): Unit =
-    state = state.copy(currentPiece = state.currentPiece
-      .rotate(toRadians(-60)))
+  private def rotateLeft(): Unit =
+    setState(state.copy(currentPiece = state.currentPiece
+      .rotate(toRadians(-60))))
 
   private def updateTimestamp(timestamp: Long) =
-    state = state.copy(lastTimestamp = timestamp)
+    setState(state.copy(lastTimestamp = timestamp))
 
   def cycle(timestamp: Long): GameState = {
     if (timestamp - state.lastTimestamp >= frameRate) {

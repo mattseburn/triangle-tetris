@@ -14,8 +14,8 @@ case class LinePiece(location: Point = GameElement.defaultLocation,
   def transpose(delta: Point): LinePiece =
     LinePiece(location.transpose(delta), triangles.map(_.transpose(delta)))
 
-  def resize(size: Double): LinePiece =
-    this
+  override def toString: String =
+    s"LinePiece[$location]"
 }
 
 object LinePiece {

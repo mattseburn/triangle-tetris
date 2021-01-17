@@ -14,8 +14,8 @@ case class HexagonPiece(location: Point = GameElement.defaultLocation,
   def transpose(delta: Point): HexagonPiece =
     HexagonPiece(location.transpose(delta), triangles.map(_.transpose(delta)))
 
-  def resize(size: Double): HexagonPiece =
-    this
+  override def toString: String =
+    s"HexagonPiece[$location]"
 }
 
 object HexagonPiece {

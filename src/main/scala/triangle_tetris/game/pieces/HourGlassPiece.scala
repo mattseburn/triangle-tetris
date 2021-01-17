@@ -8,14 +8,16 @@ case class HourGlassPiece(location: Point = GameElement.defaultLocation,
                           magnitude: Double = GameElement.defaultMagnitude)
   extends Piece(PieceType.HourGlass, Color.Blue, location, triangles) {
 
-  def rotate(angle: Double): HourGlassPiece =
+  def rotate(angle: Double): HourGlassPiece = {
+    println(s"rotating, pivot: $location")
     HourGlassPiece(location, triangles.map(_.rotate(angle)))
+  }
 
   def transpose(delta: Point): HourGlassPiece =
     HourGlassPiece(location.transpose(delta), triangles.map(_.transpose(delta)))
 
-  def resize(size: Double): HourGlassPiece =
-    this
+  override def toString: String =
+    s"HourGlassPiece[$location]"
 }
 
 object HourGlassPiece {

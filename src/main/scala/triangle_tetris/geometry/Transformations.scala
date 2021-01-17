@@ -9,5 +9,4 @@ trait Transformations[T <: Transformations[T]] {
 
   def rotate(angle: Double): T
   def transpose(delta: Point): T
-  def resize(size: Double): T
 }
