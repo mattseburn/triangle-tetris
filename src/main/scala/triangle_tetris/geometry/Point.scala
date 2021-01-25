@@ -2,7 +2,7 @@ package triangle_tetris.geometry
 
 import scala.math._
 
-case class Point(x: Double, y: Double) extends Transformations[Point] {
+case class Point(x: Double, y: Double) {
   def ==(p: Point): Boolean =
     p.x == x && p.y == y
 
@@ -17,17 +17,6 @@ case class Point(x: Double, y: Double) extends Transformations[Point] {
 
   def *(s: Double): Point =
     Point(x * s, y * s)
-
-  def transpose(delta: Point): Point =
-    this + delta
-
-  def rotate(angle: Double): Point =
-    Point(
-      x * round(cos(angle) * 1000).toDouble / 1000 - y * round(sin(angle) * 1000).toDouble / 1000,
-      x * round(sin(angle) * 1000).toDouble / 1000 + y * round(cos(angle) * 1000).toDouble / 1000)
-
-  def points: List[Point] =
-    List(this)
 
   override def toString: String =
     s"Point($x, $y)"
