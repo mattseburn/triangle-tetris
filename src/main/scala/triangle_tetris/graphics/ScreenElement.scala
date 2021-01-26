@@ -8,9 +8,9 @@ case class ScreenElement(triangle: Triangle,
                          color: FxColor)
 
 object ScreenElement {
-  def apply(cellIndex: CellIndex, cell: Cell): ScreenElement =
-    ScreenElement(Triangle(cellIndex, 50), ScreenColor(cell.color))
+  def apply(cellIndex: CellIndex, cell: Cell, cellMagnitude: Double): ScreenElement =
+    ScreenElement(Triangle(cellIndex, cellMagnitude), ScreenColor(cell.color))
 
-  def apply(c: (CellIndex, Cell)): ScreenElement =
-    apply(c._1, c._2)
+  def apply(c: (CellIndex, Cell), cellMagnitude: Double): ScreenElement =
+    apply(c._1, c._2, cellMagnitude)
 }

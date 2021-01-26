@@ -17,7 +17,7 @@ object TriangleTetris extends JFXApp {
     val frameRate: Long = 5 * 1000 * 1000 * 1000 // nanoseconds
 
     val game: Game = new Game(gridWidth, gridHeight, frameRate)
-    val screen: Screen = new Screen(1000, 1000, padding, game.eventHandler)
+    val screen: Screen = new Screen(1000, 1000, magnitude, padding, game.eventHandler)
 
     AnimationTimer { timestamp: Long =>
       scene = screen.render(game.cycle(timestamp))

@@ -8,14 +8,14 @@ import scalafx.scene.paint.Color._
 import triangle_tetris.game.board.Grid
 import triangle_tetris.game.EventHandler
 
-class Screen(width: Double, height: Double, padding: Double, eventHandler: EventHandler) {
+class Screen(width: Double, height: Double, cellMagnitude: Double, padding: Double, eventHandler: EventHandler) {
   private def noop: () => Unit = () => ()
 
   private val _width = width
   private val _height = height
 
   def render(grid: Grid): FxScene = {
-    val screenElements = grid.cells.toList.map(ScreenElement(_))
+    val screenElements = grid.cells.toList.map(ScreenElement(_, cellMagnitude))
 
     val canvas = new Canvas(width + padding, height + padding) {
       graphicsContext2D.lineWidth = 1
