@@ -11,6 +11,17 @@ case class Grid(cells: SortedMap[CellIndex, Cell]) {
   def update(newCells: Map[CellIndex, Cell]): Grid =
     Grid(cells ++ newCells)
 
+  def contains(cellIndex: CellIndex): Boolean =
+    cells.contains(cellIndex)
+
+  def occupied(cellIndex: CellIndex): Boolean =
+    contains(cellIndex) && cells
+      .get(cellIndex)
+      .exists(_.color.isDefined)
+
+  def empty(cellIndex: CellIndex): Boolean =
+    !occupied(cellIndex)
+
   override def toString: String =
     cells.toList.map {
       case (index, cell) => s"$index, $cell"

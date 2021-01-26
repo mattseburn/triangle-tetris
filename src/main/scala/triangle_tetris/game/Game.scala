@@ -1,12 +1,12 @@
 package triangle_tetris.game
 
-import triangle_tetris.game.board.Grid
+import triangle_tetris.game.board.{CellIndex, Grid}
 
 class Game(width: Int,
            height: Int,
            frameRate: Double) {
 
-  private val gameState = new GameStateManager(width, height, frameRate)
+  private val gameStateManager = new GameStateManager(width, height, frameRate)
 
   private val _eventHandler = new EventHandler(
     moveRight,
@@ -22,18 +22,18 @@ class Game(width: Int,
   private def moveLeft(): Unit = ???
 
   private def moveDown(): Unit =
-    gameState.movePiece()
+    gameStateManager.movePiece()
 
   private def rotateRight(): Unit = ???
 
   private def rotateLeft(): Unit = ???
 
   def cycle(timestamp: Long): Grid = {
-    if (timestamp - gameState.getState.lastTimestamp >= frameRate) {
+    if (timestamp - gameStateManager.getState.lastTimestamp >= frameRate) {
       moveDown()
-      gameState.updateTimestamp(timestamp)
+      gameStateManager.updateTimestamp(timestamp)
     }
 
-    gameState.getState.grid
+    gameStateManager.getState.grid
   }
 }

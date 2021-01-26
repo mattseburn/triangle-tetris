@@ -31,9 +31,17 @@ class GameStateManager(width: Int,
       gameState.activePiece.copy(location =
         gameState.activePiece.location + CellIndex(0, -1, 1))))
 
+  private def canMoveDown: Boolean =
+    gameState.activePiece.cellIndexes
+      .forall(cellIndex => gameState.grid.contains(cellIndex + CellIndex(0, -1, 1)))
+
   def movePiece(): Unit = {
     removePieceFromGrid()
-    moveDown()
+
+    if (canMoveDown) {
+      moveDown()
+    }
+
     placePieceOnGrid()
   }
 
