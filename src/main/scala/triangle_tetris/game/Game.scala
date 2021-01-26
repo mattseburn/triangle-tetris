@@ -29,11 +29,11 @@ class Game(width: Int,
   private def rotateLeft(): Unit = ???
 
   def cycle(timestamp: Long): Grid = {
-    if (timestamp - gameStateManager.getState.lastTimestamp >= frameRate) {
+    if (timestamp - gameStateManager.getLastTimestamp >= frameRate) {
       moveDown()
       gameStateManager.updateTimestamp(timestamp)
     }
 
-    gameStateManager.getState.grid
+    gameStateManager.getGrid
   }
 }

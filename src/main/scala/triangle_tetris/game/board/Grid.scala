@@ -22,6 +22,12 @@ case class Grid(cells: SortedMap[CellIndex, Cell]) {
   def empty(cellIndex: CellIndex): Boolean =
     !occupied(cellIndex)
 
+  def columnHeads: List[CellIndex] =
+    cells.keys.toList
+      .groupBy(_.i).toList
+      .map(_._2.sortWith((a, b) => a.j > b.j || a.k < b.k).head)
+      .sortBy(_.i)
+
   override def toString: String =
     cells.toList.map {
       case (index, cell) => s"$index, $cell"
