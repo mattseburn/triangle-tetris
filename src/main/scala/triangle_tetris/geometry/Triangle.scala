@@ -22,7 +22,7 @@ object Triangle {
   def apply(cellIndex: CellIndex, magnitude: Double): Triangle = {
     val triangleHeight = rint(sqrt(pow(magnitude, 2) - pow(magnitude/2, 2)))
 
-    val triangle = cellIndex.j - cellIndex.k - cellIndex.i match {
+    val triangle = cellIndex.i + cellIndex.j + cellIndex.k match {
       case d if d % 2 == 0 =>
         Triangle(
           Point(0, 0),
@@ -35,7 +35,7 @@ object Triangle {
           Point(triangleHeight, 0))
     }
 
-    val delta = cellIndex.j - cellIndex.k match {
+    val delta = cellIndex.j + cellIndex.k match {
       case 0 => Point(cellIndex.i * triangleHeight, 0)
       case d if d < 0 =>
         Point(

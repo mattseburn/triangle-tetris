@@ -32,25 +32,26 @@ object Grid {
   def apply(width: Int, height: Int): Grid =
     new Grid(SortedMap[CellIndex, Cell]() ++ (-width/2 until width/2).toList
       .flatMap(i => {
-        val midJK = (i match {
-          case _i if _i > 0 => floor(i/2)
-          case _ => floor((i - 1)/2)
-        }).toInt
-        val minJK = midJK - height/2
-        val maxJK = midJK + height/2
-        val (range, endIndex) = i match {
-          case _i if _i % 2 == 0 =>
-            ((minJK to maxJK - 1).toList,
-              CellIndex(i, minJK, maxJK))
-          case _ =>
-            ((minJK + 1 to maxJK).toList,
-              CellIndex(i, maxJK, minJK))
-        }
+        val midJ = floor(i.toDouble / 2).toInt
+        val minJ = midJ - height / 2
+        val maxJ = midJ + height / 2
 
-        (List(endIndex) ++ range.flatMap(k =>
-          List(
-            CellIndex(i, i - k, k),
-            CellIndex(i, i - k - 1, k))))
-          .map(index => (index, Cell()))
-      }).toMap)
+        val midK = ceil(-i.toDouble / 2).toInt
+        val minK = midK - height / 2
+        val maxK = midK + height / 2
+
+        val jRange = (minJ until maxJ).toList
+        val kRange = (minK until maxK).toList
+
+        val indexes: List[CellIndex] = (jRange zip kRange flatMap {
+          case (j, k) if i % 2 == 0 => List(
+              CellIndex(i, j, k + 1),
+              CellIndex(i, j, k))
+          case (j, k) => List(
+              CellIndex(i, j + 1, k),
+              CellIndex(i, j, k))
+        }) ++ List(CellIndex(i, maxJ, maxK))
+
+        indexes.map((_, Cell())).toMap
+      }))
 }
