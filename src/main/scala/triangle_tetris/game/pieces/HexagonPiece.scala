@@ -9,9 +9,9 @@ case class HexagonPiece()
 object HexagonPiece {
   val layout: List[CellIndex] = List(
     CellIndex(0, 0, 0),
-    CellIndex(1, 0, 0),
-    CellIndex(1, 0, -1),
-    CellIndex(1, -1, -1),
-    CellIndex(0, -1, -1),
-    CellIndex(0, -1, 0))
+    CellIndex(0, -1, 0),
+    CellIndex(-1, -1, 0),
+    CellIndex(-1, -1, 1),
+    CellIndex(-1, 0, 1),
+    CellIndex(0, 0, 1))
 }

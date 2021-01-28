@@ -14,6 +14,9 @@ case class Grid(cells: SortedMap[CellIndex, Cell]) {
   def contains(cellIndex: CellIndex): Boolean =
     cells.contains(cellIndex)
 
+  def contains(cellIndexes: List[CellIndex]): Boolean =
+    cellIndexes.forall(contains)
+
   def occupied(cellIndex: CellIndex): Boolean =
     contains(cellIndex) && cells
       .get(cellIndex)

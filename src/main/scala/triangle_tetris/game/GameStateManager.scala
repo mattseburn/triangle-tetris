@@ -1,46 +1,30 @@
 package triangle_tetris.game
 
-import triangle_tetris.game.board.{ActivePiece, Cell, CellIndex, Grid}
-import triangle_tetris.game.pieces.Piece
-
-import scala.util.Random
+import triangle_tetris.game.board.{ActivePiece, Cell, Grid}
 
 class GameStateManager(width: Int,
                        height: Int,
                        frameRate: Double) {
 
-  private var lastTimestamp = 0L
-  private var grid = Grid(width, height)
-  private var activePiece = newPiece
+  private var _lastTimeStamp = 0L
+  private var _grid = Grid(width, height)
+  private var _activePiece = newPiece
 
   private def newPiece =
-    ActivePiece(Piece(), grid.columnHeads.head)
-//  private var gameState =
-//    GameState(Grid(width, height))
-
-//  private def startingLocation =
-//    gameState.grid.columnHeads(Random.nextInt(gameState.grid.columnHeads.length))
-
-  private def setState(newGrid: Grid): Unit =
-    grid = newGrid
+    ActivePiece(_grid)
 
   private def removePieceFromGrid(): Unit =
-      grid = grid
-        .update(activePiece.cellIndexes.map((_, Cell(None))).toMap)
+      _grid = _grid
+        .update(_activePiece.cellIndexes.map((_, Cell(None))).toMap)
 
   private def placePieceOnGrid(): Unit =
-    grid = grid.update(activePiece.cells)
-
-  private def setNewPiece(): Unit =
-    activePiece = newPiece
+    _grid = _grid.update(_activePiece.cells)
 
   private def moveDown(): Unit =
-    activePiece = activePiece.copy(location =
-        activePiece.location + CellIndex(0, -1, 1))
+    _activePiece = _activePiece.moveDown
 
   private def canMoveDown: Boolean =
-    activePiece.cellIndexes
-      .forall(cellIndex => grid.contains(cellIndex + CellIndex(0, -1, 1)))
+    _grid.contains(_activePiece.moveDown.cellIndexes)
 
   def movePiece(): Unit = {
     removePieceFromGrid()
@@ -52,8 +36,8 @@ class GameStateManager(width: Int,
     placePieceOnGrid()
   }
 
-  def getGrid: Grid = grid
-  def getLastTimestamp = lastTimestamp
+  def grid: Grid = _grid
+  def lastTimestamp = _lastTimeStamp
   def updateTimestamp(timestamp: Long): Unit =
-    lastTimestamp = timestamp
+    _lastTimeStamp = timestamp
 }
