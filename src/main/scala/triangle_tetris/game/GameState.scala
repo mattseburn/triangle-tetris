@@ -1,29 +1,40 @@
 package triangle_tetris.game
 
-import triangle_tetris.game.board.{ActivePiece, Cell, Grid}
-import triangle_tetris.game.pieces.Piece
+import triangle_tetris.game.board.{ActivePiece, Cell, Direction, Grid}
 
 case class GameState(grid: Grid,
-//                     activePiece: ActivePiece,
-                     lastTimestamp: Long = 0) //{
+                     activePiece: ActivePiece,
+                     lastTimestamp: Long = 0L) {
 
-//  private def removePiece(): GameState =
-//    GameState(
-//      grid.update(activePiece.cellIndexes.map((_, Cell(None))).toMap),
-//      activePiece,
-//      lastTimestamp)
-//
-//  private def addPiece(): GameState =
-//    GameState(grid.update(activePiece.cells), activePiece, lastTimestamp)
-//
-//  private def newPiece(): GameState =
-//    GameState(grid, ActivePiece(Piece()), lastTimestamp)
-//
-//  private def updatePiece(): GameState =
-//    this.removePiece().newPiece().addPiece()
-//}
-//
-//object GameState {
-//  def apply(grid: Grid): GameState =
-//    new GameState(grid).updatePiece()
-//}
+  def canMove(direction: Direction): Boolean = {
+    try { grid.empty(activePiece.move(direction).cellIndexes.diff(activePiece.cellIndexes)) }
+    catch { case e: IndexOutOfBoundsException => false }
+  }
+
+  def move(direction: Direction): GameState =
+    if (canMove(direction)) this
+      .removeActivePieceFromBoard
+      ._move(direction)
+      .placeActivePieceOnBoard
+    else if (canMove(Direction.Down)) this
+    else this
+      .copy(activePiece = ActivePiece(grid))
+
+  def placeActivePieceOnBoard: GameState =
+    this.copy(grid = grid.update(activePiece.cells))
+
+  def removeActivePieceFromBoard: GameState =
+    this.copy(grid = grid.update(activePiece.cellIndexes.map((_, Cell(None))).toMap))
+
+  def setTimestamp(timestamp: Long): GameState =
+    this.copy(lastTimestamp = timestamp)
+
+  private def _move(direction: Direction): GameState =
+    GameState(grid, activePiece.move(direction), lastTimestamp)
+}
+
+object GameState {
+  def apply(grid: Grid): GameState =
+    GameState(grid, ActivePiece(grid))
+      .placeActivePieceOnBoard
+}

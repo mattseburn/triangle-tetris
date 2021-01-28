@@ -1,12 +1,10 @@
 package triangle_tetris.game.board
 
-import scala.collection.SortedMap
-
 import scala.math._
 
-case class Grid(cells: SortedMap[CellIndex, Cell]) {
+case class Grid(cells: Map[CellIndex, Cell]) {
   def update(cellIndex: CellIndex, cell: Cell): Grid =
-    Grid(cells ++ SortedMap(cellIndex -> cell))
+    Grid(cells ++ Map(cellIndex -> cell))
 
   def update(newCells: Map[CellIndex, Cell]): Grid =
     Grid(cells ++ newCells)
@@ -18,17 +16,24 @@ case class Grid(cells: SortedMap[CellIndex, Cell]) {
     cellIndexes.forall(contains)
 
   def occupied(cellIndex: CellIndex): Boolean =
-    contains(cellIndex) && cells
+    if (!contains(cellIndex)) { throw new IndexOutOfBoundsException(s"Invalid cell index: $cellIndex") }
+    else cells
       .get(cellIndex)
       .exists(_.color.isDefined)
+
+  def occupied(cellIndexes: List[CellIndex]): Boolean =
+    cellIndexes.forall(occupied)
 
   def empty(cellIndex: CellIndex): Boolean =
     !occupied(cellIndex)
 
+  def empty(cellIndexes: List[CellIndex]): Boolean =
+    cellIndexes.forall(empty)
+
   def columnHeads: List[CellIndex] =
     cells.keys.toList
       .groupBy(_.i).toList
-      .map(_._2.sortWith((a, b) => a.j > b.j || a.k < b.k).head)
+      .map(_._2.sortWith((a, b) => a.j >= b.j && a.k >= b.k).head)
       .sortBy(_.i)
 
   override def toString: String =
@@ -39,7 +44,7 @@ case class Grid(cells: SortedMap[CellIndex, Cell]) {
 
 object Grid {
   def apply(width: Int, height: Int): Grid =
-    new Grid(SortedMap[CellIndex, Cell]() ++ (-width/2 until width/2).toList
+    Grid((-width / 2 until width / 2).toList
       .flatMap(i => {
         val midJ = floor(i.toDouble / 2).toInt
         val minJ = midJ - height / 2
@@ -52,15 +57,16 @@ object Grid {
         val jRange = (minJ until maxJ).toList
         val kRange = (minK until maxK).toList
 
-        val indexes: List[CellIndex] = (jRange zip kRange flatMap {
+        (jRange zip kRange flatMap {
           case (j, k) if i % 2 == 0 => List(
-              CellIndex(i, j, k + 1),
-              CellIndex(i, j, k))
+            CellIndex(i, j, k + 1),
+            CellIndex(i, j, k))
           case (j, k) => List(
-              CellIndex(i, j + 1, k),
-              CellIndex(i, j, k))
+            CellIndex(i, j + 1, k),
+            CellIndex(i, j, k))
         }) ++ List(CellIndex(i, maxJ, maxK))
-
-        indexes.map((_, Cell())).toMap
       }))
+
+  def apply(cellIndexes: List[CellIndex]): Grid =
+    Grid(cellIndexes.map((_, Cell())).toMap)
 }

@@ -14,4 +14,10 @@ case class CellIndex(i: Int, j: Int, k: Int) {
 object CellIndex {
   implicit val order: Ordering[CellIndex] =
     Ordering.by(unapply)
+
+  def apply(direction: Direction): CellIndex = direction match {
+    case Direction.Right => CellIndex(1, 0, -1)
+    case Direction.Left => CellIndex(-1, -1, 0)
+    case Direction.Down => CellIndex(0, -1, -1)
+  }
 }

@@ -1,6 +1,7 @@
 package triangle_tetris.game.board
 
 import triangle_tetris.game.pieces.Piece
+import triangle_tetris.game.board.Direction._
 
 import scala.util.Random
 
@@ -11,14 +12,8 @@ case class ActivePiece(piece: Piece,
   def rotate(r: Int): ActivePiece =
     ActivePiece(piece, location, rotation + r)
 
-  def moveDown: ActivePiece =
-    ActivePiece(piece, location + CellIndex(0, -1, -1))
-
-  def moveLeft: ActivePiece =
-    ActivePiece(piece, location + CellIndex(location.i - 1, location.j - 1, location.k))
-
-  def moveRight: ActivePiece =
-    ActivePiece(piece, location + CellIndex(location.i + 1, location.j, location.k - 1))
+  def move(direction: Direction): ActivePiece =
+    ActivePiece(piece, location + CellIndex(direction))
 
   def cellIndexes: List[CellIndex] =
     piece.layout.map(applyLocation)
@@ -32,12 +27,12 @@ case class ActivePiece(piece: Piece,
 
 object ActivePiece {
   def apply(grid: Grid): ActivePiece =
-    ActivePiece(Piece(), grid.columnHeads(Random.nextInt(grid.columnHeads.length))) match {
+    ActivePiece(Piece(), grid.columnHeads(Random.nextInt(grid.columnHeads.size))) match {
       case piece: ActivePiece =>
         if (grid.contains(piece.cellIndexes)) { piece }
-        else if (grid.contains(piece.moveRight.cellIndexes)) { piece.moveRight }
-        else if (grid.contains(piece.moveLeft.cellIndexes)) { piece.moveLeft }
-        else if (grid.contains(piece.moveDown.cellIndexes)) { piece.moveDown }
+        else if (grid.contains(piece.move(Right).cellIndexes)) { piece.move(Right) }
+        else if (grid.contains(piece.move(Left).cellIndexes)) { piece.move(Left) }
+        else if (grid.contains(piece.move(Down).cellIndexes)) { piece.move(Down) }
         else { apply(grid) }
-    }
+  }
 }

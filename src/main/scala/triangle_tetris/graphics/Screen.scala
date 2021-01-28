@@ -41,8 +41,8 @@ class Screen(width: Double, height: Double, cellMagnitude: Double, padding: Doub
       fill = Black
       onKeyPressed = keyEvent => {
         keyEvent.getCode match {
-//          case KeyCode.LEFT => eventHandler.moveLeft()
-//          case KeyCode.RIGHT => eventHandler.moveRight()
+          case KeyCode.LEFT => eventHandler.moveLeft()
+          case KeyCode.RIGHT => eventHandler.moveRight()
           case KeyCode.DOWN => eventHandler.moveDown()
 //          case KeyCode.PAGE_DOWN => eventHandler.rotateRight()
 //          case KeyCode.PAGE_UP => eventHandler.rotateLeft()
