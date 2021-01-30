@@ -1,6 +1,11 @@
-package triangle_tetris.game.board
+package triangle_tetris.game.board.grid
+
+import triangle_tetris.game.board.movement.Direction
 
 case class CellIndex(i: Int, j: Int, k: Int) {
+  def unary_- : CellIndex =
+    CellIndex(-i, -j, -k)
+
   def +(c: CellIndex): CellIndex =
     CellIndex(c.i + i, c.j + j, c.k + k)
 

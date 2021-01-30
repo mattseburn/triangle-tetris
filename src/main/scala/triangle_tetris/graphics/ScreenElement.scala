@@ -1,7 +1,7 @@
 package triangle_tetris.graphics
 
 import scalafx.scene.paint.{Color => FxColor}
-import triangle_tetris.game.board.{Cell, CellIndex}
+import triangle_tetris.game.board.grid.{Cell, CellIndex}
 import triangle_tetris.geometry.Triangle
 
 case class ScreenElement(triangle: Triangle,

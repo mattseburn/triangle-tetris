@@ -1,7 +1,7 @@
 package triangle_tetris.game.pieces
 
 import triangle_tetris.game.Color
-import triangle_tetris.game.board.CellIndex
+import triangle_tetris.game.board.grid.CellIndex
 
 import scala.util.Random
 

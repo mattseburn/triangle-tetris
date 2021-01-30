@@ -3,6 +3,7 @@ package triangle_tetris.game.board
 import org.scalatest.matchers.should.Matchers._
 import org.scalatest.wordspec.AnyWordSpec
 import triangle_tetris.game.Color
+import triangle_tetris.game.board.grid.{Cell, CellIndex, Grid}
 
 import scala.util.Random
 
@@ -108,7 +109,7 @@ class GridSpec extends AnyWordSpec {
   }
 
   "empty" when {
-    val grid = Grid(gridIndexes.zipWithIndex.map {
+    val grid = grid.Grid(gridIndexes.zipWithIndex.map {
       case (index, i) if i % 2 == 0 => (index, Cell())
       case (index, _) => (index, Cell(Some(Color.Red)))
     }.toMap)

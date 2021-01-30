@@ -1,7 +1,8 @@
 package triangle_tetris.game
 
-import triangle_tetris.game.board.Grid
-import triangle_tetris.game.board.Direction._
+import triangle_tetris.game.board.movement.Direction._
+import triangle_tetris.game.board.grid.Grid
+import triangle_tetris.game.board.movement.RotationalDirection._
 
 class Game(width: Int,
            height: Int,
@@ -27,9 +28,11 @@ class Game(width: Int,
   private def moveDown(): Unit =
     _gameState = _gameState.move(Down)
 
-  private def rotateRight(): Unit = ???
+  private def rotateRight(): Unit =
+    _gameState = _gameState.rotate(Clockwise)
 
-  private def rotateLeft(): Unit = ???
+  private def rotateLeft(): Unit =
+    _gameState = _gameState.rotate(Counterclockwise)
 
   private def updateTimestamp(timestamp: Long): Unit =
     _gameState = _gameState.copy(lastTimestamp = timestamp)

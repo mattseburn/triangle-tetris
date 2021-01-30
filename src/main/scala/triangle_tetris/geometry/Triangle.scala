@@ -1,6 +1,6 @@
 package triangle_tetris.geometry
 
-import triangle_tetris.game.board.CellIndex
+import triangle_tetris.game.board.grid.CellIndex
 
 import scala.math._
 

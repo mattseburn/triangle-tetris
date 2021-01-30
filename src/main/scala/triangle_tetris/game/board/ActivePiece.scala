@@ -1,28 +1,29 @@
 package triangle_tetris.game.board
 
 import triangle_tetris.game.pieces.Piece
-import triangle_tetris.game.board.Direction._
+import triangle_tetris.game.board.movement.Direction._
+import triangle_tetris.game.board.grid.{Cell, CellIndex, Grid}
+import triangle_tetris.game.board.movement.{Direction, Rotation, RotationalDirection}
 
 import scala.util.Random
 
 case class ActivePiece(piece: Piece,
                        location: CellIndex = CellIndex(0, 0, 0),
-                       rotation: Int = 0) {
+                       rotation: Rotation = Rotation()) {
 
-  def rotate(r: Int): ActivePiece =
-    ActivePiece(piece, location, rotation + r)
+  def rotate(rotationalDirection: RotationalDirection): ActivePiece =
+    this.copy(rotation = rotation.update(rotationalDirection))
 
   def move(direction: Direction): ActivePiece =
-    ActivePiece(piece, location + CellIndex(direction))
+    this.copy(location = location + CellIndex(direction))
 
   def cellIndexes: List[CellIndex] =
-    piece.layout.map(applyLocation)
+    piece.layout
+      .map(rotation.rotateCell)
+      .map(_ + location)
 
   def cells: Map[CellIndex, Cell] =
     cellIndexes.map((_, Cell(Some(piece.color)))).toMap
-
-  private def applyLocation(delta: CellIndex): CellIndex =
-    location + delta
 }
 
 object ActivePiece {
@@ -34,5 +35,29 @@ object ActivePiece {
         else if (grid.contains(piece.move(Left).cellIndexes)) { piece.move(Left) }
         else if (grid.contains(piece.move(Down).cellIndexes)) { piece.move(Down) }
         else { apply(grid) }
-  }
+    }
 }
+
+/*
+
+  - need to know adjacent orientation
+  - orientation should have deltas
+  - and probably next / prev
+  - interface isn't great so far
+
+  - have:
+    - active piece's orientation
+    - rotation direction
+  - need:
+    - rotation delta for each cell index
+
+  - maybe represent rotations
+    - (Orientation, RotationalDirection) ?
+    - rotation case objects
+      - maps orientation & direction to the correct axes definitions
+  - create separate case objects for axes and +/-
+    - results returned are tuples?
+      - no rotations
+
+ */
+

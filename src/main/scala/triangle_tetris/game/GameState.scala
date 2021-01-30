@@ -1,6 +1,8 @@
 package triangle_tetris.game
 
-import triangle_tetris.game.board.{ActivePiece, Cell, Direction, Grid}
+import triangle_tetris.game.board.grid.{Cell, Grid}
+import triangle_tetris.game.board.movement.{Direction, RotationalDirection}
+import triangle_tetris.game.board.ActivePiece
 
 case class GameState(grid: Grid,
                      activePiece: ActivePiece,
@@ -20,6 +22,12 @@ case class GameState(grid: Grid,
     else this
       .copy(activePiece = ActivePiece(grid))
 
+  def rotate(rotationalDirection: RotationalDirection): GameState =
+    this
+      .removeActivePieceFromBoard
+      ._rotate(rotationalDirection)
+      .placeActivePieceOnBoard
+
   def placeActivePieceOnBoard: GameState =
     this.copy(grid = grid.update(activePiece.cells))
 
@@ -31,6 +39,9 @@ case class GameState(grid: Grid,
 
   private def _move(direction: Direction): GameState =
     GameState(grid, activePiece.move(direction), lastTimestamp)
+
+  private def _rotate(rotationalDirection: RotationalDirection): GameState =
+    GameState(grid, activePiece.rotate(rotationalDirection), lastTimestamp)
 }
 
 object GameState {

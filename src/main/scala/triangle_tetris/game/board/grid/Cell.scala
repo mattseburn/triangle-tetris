@@ -1,4 +1,4 @@
-package triangle_tetris.game.board
+package triangle_tetris.game.board.grid
 
 import triangle_tetris.game.Color
 

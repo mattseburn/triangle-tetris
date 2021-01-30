@@ -1,4 +1,4 @@
-package triangle_tetris.game.board
+package triangle_tetris.game.board.movement
 
 sealed trait Direction
 case object Direction {

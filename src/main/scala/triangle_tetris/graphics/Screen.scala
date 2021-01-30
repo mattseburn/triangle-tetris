@@ -5,8 +5,8 @@ import scalafx.scene.canvas.Canvas
 import javafx.scene.input.KeyCode
 import scalafx.scene.layout.Pane
 import scalafx.scene.paint.Color._
-import triangle_tetris.game.board.Grid
 import triangle_tetris.game.EventHandler
+import triangle_tetris.game.board.grid.Grid
 
 class Screen(width: Double, height: Double, cellMagnitude: Double, padding: Double, eventHandler: EventHandler) {
   private def noop: () => Unit = () => ()
@@ -44,8 +44,8 @@ class Screen(width: Double, height: Double, cellMagnitude: Double, padding: Doub
           case KeyCode.LEFT => eventHandler.moveLeft()
           case KeyCode.RIGHT => eventHandler.moveRight()
           case KeyCode.DOWN => eventHandler.moveDown()
-//          case KeyCode.PAGE_DOWN => eventHandler.rotateRight()
-//          case KeyCode.PAGE_UP => eventHandler.rotateLeft()
+          case KeyCode.PAGE_DOWN => eventHandler.rotateRight()
+          case KeyCode.PAGE_UP => eventHandler.rotateLeft()
           case _ => noop
         }
       }
