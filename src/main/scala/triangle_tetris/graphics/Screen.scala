@@ -4,7 +4,7 @@ import scalafx.scene.{Scene => FxScene}
 import scalafx.scene.canvas.Canvas
 import scalafx.scene.layout.Pane
 import scalafx.scene.paint.Color._
-import triangle_tetris.game.EventSystem
+import triangle_tetris.events.{Event, EventSystem}
 import triangle_tetris.game.board.grid.Grid
 
 class Screen(width: Double, height: Double, cellMagnitude: Double, padding: Double, eventSystem: EventSystem) {

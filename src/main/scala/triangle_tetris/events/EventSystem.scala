@@ -1,6 +1,4 @@
-package triangle_tetris.game
-
-import triangle_tetris.graphics.Event
+package triangle_tetris.events
 
 class EventSystem {
   private val noop = () => ()

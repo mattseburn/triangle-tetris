@@ -1,10 +1,11 @@
 package triangle_tetris.game
 
+import triangle_tetris.events.Event._
+import triangle_tetris.events.EventSystem
 import triangle_tetris.game.board.movement.Direction._
 import triangle_tetris.game.board.movement.{Direction, RotationalDirection}
 import triangle_tetris.game.board.grid.Grid
 import triangle_tetris.game.board.movement.RotationalDirection._
-import triangle_tetris.graphics.Event._
 
 class Game(width: Int,
            height: Int,

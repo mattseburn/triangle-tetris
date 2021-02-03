@@ -1,4 +1,4 @@
-package triangle_tetris.graphics
+package triangle_tetris.events
 
 import javafx.scene.input.KeyCode
 

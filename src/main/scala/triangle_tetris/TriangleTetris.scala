@@ -3,7 +3,8 @@ package triangle_tetris
 import scalafx.animation.AnimationTimer
 import scalafx.application.JFXApp
 import scalafx.application.JFXApp.PrimaryStage
-import triangle_tetris.game.{EventSystem, Game}
+import triangle_tetris.events.EventSystem
+import triangle_tetris.game.Game
 import triangle_tetris.graphics.Screen
 
 object TriangleTetris extends JFXApp {
