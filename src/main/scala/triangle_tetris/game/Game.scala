@@ -1,5 +1,6 @@
 package triangle_tetris.game
 
+import com.typesafe.scalalogging.Logger
 import triangle_tetris.events.Event._
 import triangle_tetris.events.{Event, EventSystem}
 import triangle_tetris.game.board.movement.Direction._
@@ -13,6 +14,7 @@ class Game(width: Int,
            eventSystem: EventSystem) {
 
   private var _gameState = GameState(Grid(width, height))
+  private val logger = Logger[Game]
 
   eventSystem.registerHandler(MoveRight, () => move(Right))
   eventSystem.registerHandler(MoveLeft, () => move(Left))
@@ -37,6 +39,7 @@ class Game(width: Int,
 
   def cycle(timestamp: Long): Grid = {
     if (!_gameState.paused && timestamp - _gameState.lastTimestamp >= frameRate) {
+      logger.debug(s"Game cycle [$timestamp]")
       move(Down)
       updateTimestamp(timestamp)
     }

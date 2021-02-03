@@ -11,7 +11,7 @@ case class GameState(grid: Grid,
 
   def canMove(direction: Direction): Boolean = {
     try { grid.empty(activePiece.move(direction).cellIndexes.diff(activePiece.cellIndexes)) }
-    catch { case e: IndexOutOfBoundsException => false }
+    catch { case _: IndexOutOfBoundsException => false }
   }
 
   def togglePause: GameState =
