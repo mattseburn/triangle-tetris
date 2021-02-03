@@ -39,7 +39,7 @@ class Game(width: Int,
 
   def cycle(timestamp: Long): Grid = {
     if (!_gameState.paused && timestamp - _gameState.lastTimestamp >= frameRate) {
-      logger.debug(s"Game cycle [$timestamp]")
+      logger.debug(s"$timestamp | ${_gameState.activePiece}")
       move(Down)
       updateTimestamp(timestamp)
     }

@@ -24,6 +24,9 @@ case class ActivePiece(piece: Piece,
 
   def cells: Map[CellIndex, Cell] =
     cellIndexes.map((_, Cell(Some(piece.color)))).toMap
+
+  override def toString: String =
+    s"[ActivePiece | $piece | $location | $rotation]"
 }
 
 object ActivePiece {
