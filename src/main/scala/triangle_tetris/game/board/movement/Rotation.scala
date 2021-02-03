@@ -18,7 +18,6 @@ case class Step(value: Int = 0) {
 }
 
 case class Rotation(private val step: Step = Step()) {
-
   def update(rotationalDirection: RotationalDirection): Rotation = rotationalDirection match {
     case Clockwise => this.copy(step = step.prev)
     case Counterclockwise => this.copy(step = step.next)

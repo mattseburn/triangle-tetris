@@ -37,27 +37,3 @@ object ActivePiece {
         else { apply(grid) }
     }
 }
-
-/*
-
-  - need to know adjacent orientation
-  - orientation should have deltas
-  - and probably next / prev
-  - interface isn't great so far
-
-  - have:
-    - active piece's orientation
-    - rotation direction
-  - need:
-    - rotation delta for each cell index
-
-  - maybe represent rotations
-    - (Orientation, RotationalDirection) ?
-    - rotation case objects
-      - maps orientation & direction to the correct axes definitions
-  - create separate case objects for axes and +/-
-    - results returned are tuples?
-      - no rotations
-
- */
-

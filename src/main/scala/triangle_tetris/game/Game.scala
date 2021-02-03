@@ -2,7 +2,7 @@ package triangle_tetris.game
 
 import com.typesafe.scalalogging.Logger
 import triangle_tetris.events.Event._
-import triangle_tetris.events.{Event, EventSystem}
+import triangle_tetris.events.EventSystem
 import triangle_tetris.game.board.movement.Direction._
 import triangle_tetris.game.board.movement.{Direction, RotationalDirection}
 import triangle_tetris.game.board.grid.Grid
