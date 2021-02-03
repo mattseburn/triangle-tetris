@@ -1,45 +1,36 @@
 package triangle_tetris.game
 
 import triangle_tetris.game.board.movement.Direction._
+import triangle_tetris.game.board.movement.{Direction, RotationalDirection}
 import triangle_tetris.game.board.grid.Grid
 import triangle_tetris.game.board.movement.RotationalDirection._
+import triangle_tetris.graphics.Event._
 
 class Game(width: Int,
            height: Int,
-           frameRate: Double) {
+           frameRate: Double,
+           eventSystem: EventSystem) {
 
   private var _gameState = GameState(Grid(width, height))
 
-  private val _eventHandler = new EventHandler(
-    moveRight,
-    moveLeft,
-    moveDown,
-    rotateRight,
-    rotateLeft)
+  eventSystem.registerHandler(MoveRight, () => move(Right))
+  eventSystem.registerHandler(MoveLeft, () => move(Left))
+  eventSystem.registerHandler(MoveDown, () => move(Down))
+  eventSystem.registerHandler(RotateRight, () => rotate(Clockwise))
+  eventSystem.registerHandler(RotateLeft, () => rotate(Counterclockwise))
 
-  def eventHandler: EventHandler = _eventHandler
+  private def move(direction: Direction): Unit =
+    _gameState = _gameState.move(direction)
 
-  private def moveRight(): Unit =
-    _gameState = _gameState.move(Right)
-
-  private def moveLeft(): Unit =
-    _gameState = _gameState.move(Left)
-
-  private def moveDown(): Unit =
-    _gameState = _gameState.move(Down)
-
-  private def rotateRight(): Unit =
-    _gameState = _gameState.rotate(Clockwise)
-
-  private def rotateLeft(): Unit =
-    _gameState = _gameState.rotate(Counterclockwise)
+  private def rotate(rotationalDirection: RotationalDirection): Unit =
+    _gameState = _gameState.rotate(rotationalDirection)
 
   private def updateTimestamp(timestamp: Long): Unit =
     _gameState = _gameState.copy(lastTimestamp = timestamp)
 
   def cycle(timestamp: Long): Grid = {
     if (timestamp - _gameState.lastTimestamp >= frameRate) {
-      moveDown()
+      move(Down)
       updateTimestamp(timestamp)
     }
 
