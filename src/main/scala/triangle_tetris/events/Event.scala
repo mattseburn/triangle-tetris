@@ -9,6 +9,7 @@ case object Event {
   case object MoveDown extends Event
   case object RotateRight extends Event
   case object RotateLeft extends Event
+  case object TogglePause extends Event
   case object Unimplemented extends Event
 
   def apply(keyCode: KeyCode): Event = keyCode match {
@@ -17,6 +18,7 @@ case object Event {
     case KeyCode.DOWN => MoveDown
     case KeyCode.PAGE_DOWN => RotateRight
     case KeyCode.PAGE_UP => RotateLeft
+    case KeyCode.ENTER => TogglePause
     case _ => Unimplemented
   }
 }

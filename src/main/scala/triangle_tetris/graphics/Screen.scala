@@ -41,9 +41,3 @@ class Screen(width: Double, height: Double, cellMagnitude: Double, padding: Doub
     }
   }
 }
-
-/*
-
-  - eventHandler.handleEvent(KeyCode(keyEvent.getCode))
-
- */

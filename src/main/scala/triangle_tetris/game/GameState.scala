@@ -6,12 +6,16 @@ import triangle_tetris.game.board.ActivePiece
 
 case class GameState(grid: Grid,
                      activePiece: ActivePiece,
+                     paused: Boolean = false,
                      lastTimestamp: Long = 0L) {
 
   def canMove(direction: Direction): Boolean = {
     try { grid.empty(activePiece.move(direction).cellIndexes.diff(activePiece.cellIndexes)) }
     catch { case e: IndexOutOfBoundsException => false }
   }
+
+  def togglePause: GameState =
+    this.copy(paused = !paused)
 
   def move(direction: Direction): GameState =
     if (canMove(direction)) this
@@ -38,10 +42,10 @@ case class GameState(grid: Grid,
     this.copy(lastTimestamp = timestamp)
 
   private def _move(direction: Direction): GameState =
-    GameState(grid, activePiece.move(direction), lastTimestamp)
+    this.copy(activePiece = activePiece.move(direction))
 
   private def _rotate(rotationalDirection: RotationalDirection): GameState =
-    GameState(grid, activePiece.rotate(rotationalDirection), lastTimestamp)
+    this.copy(activePiece = activePiece.rotate(rotationalDirection))
 }
 
 object GameState {

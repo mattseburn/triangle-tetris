@@ -1,7 +1,7 @@
 package triangle_tetris.game
 
 import triangle_tetris.events.Event._
-import triangle_tetris.events.EventSystem
+import triangle_tetris.events.{Event, EventSystem}
 import triangle_tetris.game.board.movement.Direction._
 import triangle_tetris.game.board.movement.{Direction, RotationalDirection}
 import triangle_tetris.game.board.grid.Grid
@@ -19,18 +19,24 @@ class Game(width: Int,
   eventSystem.registerHandler(MoveDown, () => move(Down))
   eventSystem.registerHandler(RotateRight, () => rotate(Clockwise))
   eventSystem.registerHandler(RotateLeft, () => rotate(Counterclockwise))
+  eventSystem.registerHandler(TogglePause, togglePause)
 
   private def move(direction: Direction): Unit =
-    _gameState = _gameState.move(direction)
+    if (!_gameState.paused)
+      _gameState = _gameState.move(direction)
 
   private def rotate(rotationalDirection: RotationalDirection): Unit =
-    _gameState = _gameState.rotate(rotationalDirection)
+    if (!_gameState.paused)
+      _gameState = _gameState.rotate(rotationalDirection)
+
+  private def togglePause(): Unit =
+    _gameState = _gameState.togglePause
 
   private def updateTimestamp(timestamp: Long): Unit =
     _gameState = _gameState.copy(lastTimestamp = timestamp)
 
   def cycle(timestamp: Long): Grid = {
-    if (timestamp - _gameState.lastTimestamp >= frameRate) {
+    if (!_gameState.paused && timestamp - _gameState.lastTimestamp >= frameRate) {
       move(Down)
       updateTimestamp(timestamp)
     }
