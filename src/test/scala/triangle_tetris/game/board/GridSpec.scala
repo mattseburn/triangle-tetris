@@ -109,7 +109,7 @@ class GridSpec extends AnyWordSpec {
   }
 
   "empty" when {
-    val grid = grid.Grid(gridIndexes.zipWithIndex.map {
+    val grid = Grid(gridIndexes.zipWithIndex.map {
       case (index, i) if i % 2 == 0 => (index, Cell())
       case (index, _) => (index, Cell(Some(Color.Red)))
     }.toMap)
@@ -161,6 +161,30 @@ class GridSpec extends AnyWordSpec {
         "throw an exception" in {
           assertThrows[IndexOutOfBoundsException] { grid.empty(nonGridIndexes) }
         }
+      }
+    }
+  }
+
+  "apply" when {
+    "given a width and height" should {
+      "should create a new grid with the correct indexes" in {
+        val width = 2
+        val height = 2
+        val grid = Grid(width, height)
+        val expectedIndexes = List(
+          CellIndex(-1, -2, 0),
+          CellIndex(0, 0, 1),
+          CellIndex(-1, 0, 2),
+          CellIndex(0, -1, 0),
+          CellIndex(-1, -1, 1),
+          CellIndex(-1, 0, 1),
+          CellIndex(0, 1, 1),
+          CellIndex(0, -1, -1),
+          CellIndex(-1, -1, 0),
+          CellIndex(0, 0, 0))
+        val expectedCells = expectedIndexes.map((_, Cell())).toMap
+
+        grid.cells shouldEqual expectedCells
       }
     }
   }
