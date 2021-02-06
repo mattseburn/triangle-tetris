@@ -1,4 +1,4 @@
-package triangle_tetris.graphics
+package triangle_tetris.screen
 
 import scalafx.scene.paint.{Color => FxColor}
 import triangle_tetris.game.board.grid.{Cell, CellIndex}

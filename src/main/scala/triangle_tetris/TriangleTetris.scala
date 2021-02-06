@@ -5,7 +5,7 @@ import scalafx.application.JFXApp
 import scalafx.application.JFXApp.PrimaryStage
 import triangle_tetris.events.EventSystem
 import triangle_tetris.game.Game
-import triangle_tetris.graphics.Screen
+import triangle_tetris.screen.Screen
 
 object TriangleTetris extends JFXApp {
   stage = new PrimaryStage {

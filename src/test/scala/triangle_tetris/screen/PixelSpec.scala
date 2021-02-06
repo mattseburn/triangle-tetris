@@ -1,4 +1,4 @@
-package triangle_tetris.graphics
+package triangle_tetris.screen
 
 import org.scalatest.wordspec.AnyWordSpec
 import org.scalatest.matchers.should.Matchers._

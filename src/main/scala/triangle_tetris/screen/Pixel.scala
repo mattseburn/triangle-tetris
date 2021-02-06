@@ -1,4 +1,4 @@
-package triangle_tetris.graphics
+package triangle_tetris.screen
 
 import triangle_tetris.geometry.Point
 

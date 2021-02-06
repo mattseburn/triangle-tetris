@@ -1,4 +1,4 @@
-package triangle_tetris.graphics
+package triangle_tetris.screen
 
 import scalafx.scene.{Scene => FxScene}
 import scalafx.scene.canvas.{Canvas, GraphicsContext}
