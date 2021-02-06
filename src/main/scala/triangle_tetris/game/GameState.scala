@@ -9,11 +9,6 @@ case class GameState(grid: Grid,
                      paused: Boolean = false,
                      lastTimestamp: Long = 0L) {
 
-  def canMove(direction: Direction): Boolean = {
-    try { grid.empty(activePiece.move(direction).cellIndexes.diff(activePiece.cellIndexes)) }
-    catch { case _: IndexOutOfBoundsException => false }
-  }
-
   def togglePause: GameState =
     this.copy(paused = !paused)
 
@@ -32,14 +27,19 @@ case class GameState(grid: Grid,
       ._rotate(rotationalDirection)
       .placeActivePieceOnBoard
 
-  def placeActivePieceOnBoard: GameState =
-    this.copy(grid = grid.update(activePiece.cells))
-
-  def removeActivePieceFromBoard: GameState =
-    this.copy(grid = grid.update(activePiece.cellIndexes.map((_, Cell(None))).toMap))
-
   def setTimestamp(timestamp: Long): GameState =
     this.copy(lastTimestamp = timestamp)
+
+  private def canMove(direction: Direction): Boolean = {
+    try { grid.empty(activePiece.move(direction).cellIndexes.diff(activePiece.cellIndexes)) }
+    catch { case _: IndexOutOfBoundsException => false }
+  }
+
+  private def placeActivePieceOnBoard: GameState =
+    this.copy(grid = grid.update(activePiece.cells))
+
+  private def removeActivePieceFromBoard: GameState =
+    this.copy(grid = grid.update(activePiece.cellIndexes.map((_, Cell(None))).toMap))
 
   private def _move(direction: Direction): GameState =
     this.copy(activePiece = activePiece.move(direction))

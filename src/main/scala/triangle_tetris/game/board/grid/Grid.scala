@@ -37,9 +37,11 @@ case class Grid(cells: Map[CellIndex, Cell]) {
       .sortBy(_.i)
 
   override def toString: String =
-    cells.toList.map {
-      case (index, cell) => s"$index, $cell"
-    }.mkString("\n")
+    cells.groupBy(c => c._1.j + c._1.k).toList
+      .sortBy(_._1).reverse
+      .map(_._2.keys.toList.sortBy(_.i))
+      .map(_.mkString(", "))
+      .mkString("\n")
 }
 
 object Grid {
