@@ -1,13 +1,40 @@
 package triangle_tetris.game.board.grid
 
+import Axis._
+import triangle_tetris.game.board.movement.Direction.Down
+
 import scala.math._
 
 case class Grid(cells: Map[CellIndex, Cell]) {
+  def wipeCells(cellsToWipe: List[CellIndex]): Grid =
+    update(cellsToWipe.map(_c => emptyCell(_c)))
+
+  def wipeLine(line: Line): Grid =
+    update(line.cells.toList.map(_c => emptyCell(_c._1)))
+
+  def wipeLines(lineCollection: LineCollection): Grid =
+    update(lineCollection.lines.flatMap(_.cells.toList.map(_c => emptyCell(_c._1))))
+
+  def dropLines(lineCollection: LineCollection): Grid =
+    if (canLinesDrop(lineCollection)) {
+      update(lineCollection.lines.flatMap(_l => _l.cells.map(_c => (_c._1 + CellIndex(Down), _c._2))))
+    } else { this }
+
+  private def canLinesDrop(lineCollection: LineCollection): Boolean =
+    lineCollection.lines.forall(canLineDrop)
+
+  private def canLineDrop(line: Line): Boolean =
+    line.cells.keys
+      .forall(_c => contains(_c + CellIndex(Down)))
+
   def update(cellIndex: CellIndex, cell: Cell): Grid =
     Grid(cells ++ Map(cellIndex -> cell))
 
   def update(newCells: Map[CellIndex, Cell]): Grid =
     Grid(cells ++ newCells)
+
+  def update(newCells: List[(CellIndex, Cell)]): Grid =
+    update(newCells.toMap)
 
   def contains(cellIndex: CellIndex): Boolean =
     cells.contains(cellIndex)
@@ -35,6 +62,24 @@ case class Grid(cells: Map[CellIndex, Cell]) {
       .groupBy(_.i).toList
       .map(_._2.sortWith((a, b) => a.j >= b.j && a.k >= b.k).head)
       .sortBy(_.i)
+
+  def partitionByLine(line: Line): (LineCollection, LineCollection) =
+    linesByAxis(line.axis).partition(_ > line)
+
+  def completeDiagonalLines: LineCollection =
+    completeLinesByAxis(J) ++ completeLinesByAxis(K)
+
+  private def completeLinesByAxis(axis: Axis): LineCollection =
+    linesByAxis(axis).filter(_.isComplete)
+
+  private def linesByAxis(axis: Axis): LineCollection =
+   LineCollection(cells.toList
+     .groupBy(_._1.indexValue(axis)).toList
+     .map(_l => Line(_l._2.toMap))
+     .sortWith(_ > _))
+
+  private def emptyCell(cellIndex: CellIndex): (CellIndex, Cell) =
+    (cellIndex, Cell())
 
   override def toString: String =
     cells.groupBy(c => c._1.j + c._1.k).toList

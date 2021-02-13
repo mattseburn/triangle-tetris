@@ -1,11 +1,12 @@
 package triangle_tetris.game
 
-import triangle_tetris.game.board.grid.{Cell, Grid}
+import triangle_tetris.game.board.grid.{Cell, Grid, Line, LineCollection}
 import triangle_tetris.game.board.movement.{Direction, RotationalDirection}
 import triangle_tetris.game.board.ActivePiece
 
 case class GameState(grid: Grid,
                      activePiece: ActivePiece,
+                     lastCompletedLines: LineCollection = LineCollection(),
                      paused: Boolean = false,
                      lastTimestamp: Long = 0L) {
 
@@ -30,10 +31,23 @@ case class GameState(grid: Grid,
   def setTimestamp(timestamp: Long): GameState =
     this.copy(lastTimestamp = timestamp)
 
-  private def canMove(direction: Direction): Boolean = {
+  def clearCompleteLines: GameState =
+    this.copy(
+      lastCompletedLines = grid.completeDiagonalLines,
+      grid = grid.wipeLines(grid.completeDiagonalLines))
+
+  def collapseEmptyLines: GameState =
+    this.copy(
+      lastCompletedLines = LineCollection(),
+      grid = lastCompletedLines.lines
+        .map(grid.partitionByLine(_)._1)
+        .fold(grid) {
+          case (_grid: Grid, lines: LineCollection) => _grid.dropLines(lines)
+        }.asInstanceOf[Grid])
+
+  private def canMove(direction: Direction): Boolean =
     try { grid.empty(activePiece.move(direction).cellIndexes.diff(activePiece.cellIndexes)) }
     catch { case _: IndexOutOfBoundsException => false }
-  }
 
   private def placeActivePieceOnBoard: GameState =
     this.copy(grid = grid.update(activePiece.cells))

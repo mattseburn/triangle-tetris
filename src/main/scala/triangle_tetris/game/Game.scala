@@ -37,10 +37,23 @@ class Game(width: Int,
   private def updateTimestamp(timestamp: Long): Unit =
     _gameState = _gameState.copy(lastTimestamp = timestamp)
 
+  private def newCycle(timestamp: Long): Boolean =
+    timestamp - _gameState.lastTimestamp >= frameRate
+
+  private def clearCompleteLines: Unit =
+    _gameState = _gameState.clearCompleteLines
+
+  private def collapseCompletedLines: Unit =
+    _gameState = _gameState.collapseEmptyLines
+
   def cycle(timestamp: Long): Grid = {
-    if (!_gameState.paused && timestamp - _gameState.lastTimestamp >= frameRate) {
+    if (!_gameState.paused && newCycle(timestamp)) {
       logger.debug(s"$timestamp | ${_gameState.activePiece}")
       move(Down)
+      clearCompleteLines
+      // wait
+      collapseCompletedLines
+
       updateTimestamp(timestamp)
     }
 

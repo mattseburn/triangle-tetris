@@ -1,6 +1,7 @@
 package triangle_tetris.game.board.grid
 
 import triangle_tetris.game.board.movement.Direction
+import Axis._
 
 case class CellIndex(i: Int, j: Int, k: Int) {
   def unary_- : CellIndex =
@@ -11,6 +12,13 @@ case class CellIndex(i: Int, j: Int, k: Int) {
 
   def ==(c: CellIndex): Boolean =
     i == c.i && j == c.j && k == c.k
+
+  def indexValue(axis: Axis): Int =
+    axis match {
+      case I => i
+      case J => j
+      case K => k
+    }
 
   override def toString: String =
     s"($i, $j, $k)"

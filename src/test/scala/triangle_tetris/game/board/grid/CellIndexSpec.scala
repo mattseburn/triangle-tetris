@@ -3,6 +3,8 @@ package triangle_tetris.game.board.grid
 import org.scalatest.wordspec.AnyWordSpec
 import org.scalatest.matchers.should.Matchers._
 
+import triangle_tetris.game.board.grid.Axis._
+
 class CellIndexSpec extends AnyWordSpec{
   "unary minus" should {
     "negate each value" in {
@@ -35,6 +37,16 @@ class CellIndexSpec extends AnyWordSpec{
 
         c1 == c2 shouldBe false
       }
+    }
+  }
+
+  "indexValue" should {
+    "return the correct index" in {
+      val c = CellIndex(1, 2, 3)
+
+      c.indexValue(I) shouldEqual c.i
+      c.indexValue(J) shouldEqual c.j
+      c.indexValue(K) shouldEqual c.k
     }
   }
 }
