@@ -12,7 +12,7 @@ object TriangleTetris extends JFXApp {
     title = "Triangle Tetris"
 
     val gridWidth = 12
-    val gridHeight = 12
+    val gridHeight = 18
     val magnitude = 50
     val padding = 10
     val frameRate: Long = 5 * 1000 * 1000 * 1000 // nanoseconds

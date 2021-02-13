@@ -1,6 +1,6 @@
 package triangle_tetris.game.board
 
-import triangle_tetris.game.pieces.Piece
+import triangle_tetris.game.pieces.{Color, Piece, PieceLayout}
 import triangle_tetris.game.board.movement.Direction._
 import triangle_tetris.game.board.grid.{Cell, CellIndex, Grid}
 import triangle_tetris.game.board.movement.{Direction, Rotation, RotationalDirection}
@@ -18,12 +18,12 @@ case class ActivePiece(piece: Piece,
     this.copy(location = location + CellIndex(direction))
 
   def cellIndexes: List[CellIndex] =
-    piece.layout
+    PieceLayout(piece).cells
       .map(rotation.rotateCell)
       .map(_ + location)
 
   def cells: Map[CellIndex, Cell] =
-    cellIndexes.map((_, Cell(Some(piece.color)))).toMap
+    cellIndexes.map((_, Cell(Some(Color(piece))))).toMap
 
   override def toString: String =
     s"[ActivePiece | $piece | $location | $rotation]"

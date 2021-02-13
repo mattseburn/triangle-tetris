@@ -2,7 +2,7 @@ package triangle_tetris.game.board.grid
 
 import org.scalatest.matchers.should.Matchers._
 import org.scalatest.wordspec.AnyWordSpec
-import triangle_tetris.game.Color
+import triangle_tetris.game.pieces.Color
 
 import scala.util.Random
 
