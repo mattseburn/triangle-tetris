@@ -9,9 +9,6 @@ case class Grid(cells: Map[CellIndex, Cell]) {
   def wipeCells(cellsToWipe: List[CellIndex]): Grid =
     update(cellsToWipe.map(_c => emptyCell(_c)))
 
-  def wipeLine(line: Line): Grid =
-    update(line.cells.toList.map(_c => emptyCell(_c._1)))
-
   def wipeLines(lineCollection: LineCollection): Grid =
     update(lineCollection.lines.flatMap(_.cells.toList.map(_c => emptyCell(_c._1))))
 

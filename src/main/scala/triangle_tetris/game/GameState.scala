@@ -1,6 +1,6 @@
 package triangle_tetris.game
 
-import triangle_tetris.game.board.grid.{Cell, CellIndex, Grid, Line, LineCollection}
+import triangle_tetris.game.board.grid.{CellIndex, Grid, LineCollection}
 import triangle_tetris.game.board.movement.{Direction, RotationalDirection}
 import triangle_tetris.game.board.ActivePiece
 
@@ -19,8 +19,7 @@ case class GameState(grid: Grid,
       ._move(direction)
       .placeActivePieceOnBoard
     else if (canMove(Direction.Down)) this
-    else this
-      .copy(activePiece = ActivePiece(grid))
+    else newActivePiece
 
   def rotate(rotationalDirection: RotationalDirection): GameState =
     if (canRotate(rotationalDirection)) this
@@ -46,6 +45,10 @@ case class GameState(grid: Grid,
           case (_grid: Grid, lines: LineCollection) => _grid.dropLines(lines)
         }.asInstanceOf[Grid])
 
+  private def newActivePiece: GameState =
+    this.copy(activePiece = ActivePiece(grid))
+      .placeActivePieceOnBoard
+
   private def canMove(direction: Direction): Boolean =
     cellsAvailable(activePiece.move(direction).cellIndexes)
 
@@ -60,7 +63,7 @@ case class GameState(grid: Grid,
     this.copy(grid = grid.update(activePiece.cells))
 
   private def removeActivePieceFromBoard: GameState =
-    this.copy(grid = grid.update(activePiece.cellIndexes.map((_, Cell(None))).toMap))
+    this.copy(grid = grid.wipeCells(activePiece.cellIndexes))
 
   private def _move(direction: Direction): GameState =
     this.copy(activePiece = activePiece.move(direction))
@@ -70,6 +73,10 @@ case class GameState(grid: Grid,
 }
 
 object GameState {
+  def apply(width: Int, height: Int): GameState =
+    GameState(Grid(width, height))
+      .newActivePiece
+
   def apply(grid: Grid): GameState =
     GameState(grid, ActivePiece(grid))
       .placeActivePieceOnBoard

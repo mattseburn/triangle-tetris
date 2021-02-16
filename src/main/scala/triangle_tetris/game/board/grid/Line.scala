@@ -45,10 +45,3 @@ object Line {
   private def isLineByAxis(cells: Map[CellIndex, Cell], axis: Axis): Boolean =
     cells.size > 2 && cells.forall(_._1.indexValue(axis) == cells.head._1.indexValue(axis))
 }
-
-/*
-
-  - Axis(line)
-  - line.axis
-
- */

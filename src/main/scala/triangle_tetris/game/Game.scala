@@ -13,7 +13,7 @@ class Game(width: Int,
            frameRate: Double,
            eventSystem: EventSystem) {
 
-  private var _gameState = GameState(Grid(width, height))
+  private var _gameState = GameState(width, height)
   private val logger = Logger[Game]
 
   eventSystem.registerHandler(MoveRight, () => move(Right))
@@ -53,7 +53,6 @@ class Game(width: Int,
       clearCompleteLines
       // wait
       collapseCompletedLines
-
       updateTimestamp(timestamp)
     }
 

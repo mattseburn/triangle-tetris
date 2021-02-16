@@ -3,7 +3,6 @@ package triangle_tetris.events
 import com.typesafe.scalalogging.Logger
 
 class EventSystem {
-  private val noop = () => ()
   private var _handlers: Map[Event, () => Unit] = Map()
   private val logger = Logger[EventSystem]
 
@@ -12,6 +11,6 @@ class EventSystem {
 
   def handle(event: Event): Unit = {
     logger.debug(event.toString)
-    _handlers.getOrElse(event, noop)()
+    _handlers.getOrElse(event, () => ())()
   }
 }
