@@ -75,7 +75,6 @@ case class GameState(grid: Grid,
 object GameState {
   def apply(width: Int, height: Int): GameState =
     GameState(Grid(width, height))
-      .newActivePiece
 
   def apply(grid: Grid): GameState =
     GameState(grid, ActivePiece(grid))
