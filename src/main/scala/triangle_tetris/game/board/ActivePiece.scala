@@ -1,6 +1,6 @@
 package triangle_tetris.game.board
 
-import triangle_tetris.game.pieces.{Color, Piece, PieceLayout}
+import triangle_tetris.game.pieces.{Color, Piece, PieceLayout, PieceOrientation}
 import triangle_tetris.game.board.movement.Direction._
 import triangle_tetris.game.board.grid.{Cell, CellIndex, Grid}
 import triangle_tetris.game.board.movement.{Direction, Rotation, RotationalDirection}
@@ -8,6 +8,7 @@ import triangle_tetris.game.board.movement.{Direction, Rotation, RotationalDirec
 import scala.util.Random
 
 case class ActivePiece(piece: Piece,
+                       pieceOrientation: PieceOrientation,
                        location: CellIndex = CellIndex(0, 0, 0),
                        rotation: Rotation = Rotation()) {
 
@@ -18,7 +19,7 @@ case class ActivePiece(piece: Piece,
     this.copy(location = location + CellIndex(direction))
 
   def cellIndexes: List[CellIndex] =
-    PieceLayout(piece).cells
+    PieceLayout(piece, pieceOrientation).cells
       .map(rotation.rotateCell)
       .map(_ + location)
 
@@ -26,12 +27,12 @@ case class ActivePiece(piece: Piece,
     cellIndexes.map((_, Cell(Some(Color(piece))))).toMap
 
   override def toString: String =
-    s"[ActivePiece | $piece | $location | $rotation]"
+    s"[ActivePiece | $piece | $pieceOrientation | $location | $rotation]"
 }
 
 object ActivePiece {
   def apply(grid: Grid): ActivePiece =
-    ActivePiece(Piece(), grid.columnHeads(Random.nextInt(grid.columnHeads.size))) match {
+    ActivePiece(Piece(), PieceOrientation(), grid.columnHeads(Random.nextInt(grid.columnHeads.size))) match {
       case piece: ActivePiece =>
         if (grid.contains(piece.cellIndexes)) { piece }
         else if (grid.contains(piece.move(Right).cellIndexes)) { piece.move(Right) }
