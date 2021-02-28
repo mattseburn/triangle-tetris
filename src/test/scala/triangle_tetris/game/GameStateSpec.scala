@@ -6,7 +6,7 @@ import triangle_tetris.game.board.ActivePiece
 import triangle_tetris.game.board.grid.{CellIndex, Grid}
 import triangle_tetris.game.board.movement.Direction._
 import triangle_tetris.game.board.movement.RotationalDirection.Clockwise
-import triangle_tetris.game.pieces.Piece
+import triangle_tetris.game.pieces.{Piece, PieceOrientation}
 
 class GameStateSpec extends AnyWordSpec {
   private val grid = Grid(6, 6)
@@ -23,7 +23,7 @@ class GameStateSpec extends AnyWordSpec {
   "move" when {
     "the requested movement is possible" should {
       "move the active piece" in {
-        val activePiece = ActivePiece(Piece(), CellIndex(0, 0, 0))
+        val activePiece = ActivePiece(Piece(), PieceOrientation(), CellIndex(0, 0, 0))
 
         GameState(grid, activePiece)
           .move(Down)
@@ -33,7 +33,7 @@ class GameStateSpec extends AnyWordSpec {
 
     "the requested movement is not possible, but the piece can still move down" should {
       "do nothing" in {
-        val activePiece = ActivePiece(Piece(), CellIndex(-2, 2, 4))
+        val activePiece = ActivePiece(Piece(), PieceOrientation(), CellIndex(-2, 2, 4))
 
         GameState(grid, activePiece)
           .move(Left)
@@ -43,7 +43,7 @@ class GameStateSpec extends AnyWordSpec {
 
     "the piece cannot move at all" should {
       "create a new active piece" in {
-        val activePiece = ActivePiece(Piece(), CellIndex(0, -3, -3))
+        val activePiece = ActivePiece(Piece(), PieceOrientation(), CellIndex(0, -3, -3))
 
         GameState(grid, activePiece)
           .move(Left)
@@ -54,7 +54,7 @@ class GameStateSpec extends AnyWordSpec {
 
   "rotate" should {
     "rotate the active piece" in {
-      val activePiece = ActivePiece(Piece(), CellIndex(0, 0, 0))
+      val activePiece = ActivePiece(Piece(), PieceOrientation(), CellIndex(0, 0, 0))
 
       GameState(grid, activePiece)
         .rotate(Clockwise)

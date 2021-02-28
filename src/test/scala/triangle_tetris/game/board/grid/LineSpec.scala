@@ -2,7 +2,7 @@ package triangle_tetris.game.board.grid
 
 import org.scalatest.wordspec.AnyWordSpec
 import org.scalatest.matchers.should.Matchers._
-import triangle_tetris.game.Color._
+import triangle_tetris.game.pieces.Color._
 import triangle_tetris.game.board.grid.Axis._
 
 class LineSpec extends AnyWordSpec {
